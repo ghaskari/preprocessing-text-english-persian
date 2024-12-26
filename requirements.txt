@@ -1,0 +1,5 @@
+emoji==2.14.0
+nltk==3.9.1
+num2words==0.5.14
+pandas==2.2.3
+scikit-learn==1.6.0
