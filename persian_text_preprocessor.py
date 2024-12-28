@@ -6,7 +6,6 @@ from Dictionaries_Fa import (
     arabic_dict,
     num_dict,
     sign_dict_fa,
-    english_dict,
     special_char_dict,
     month_dict
 )
@@ -44,7 +43,6 @@ class PersianTextPreprocessor:
         self.arabic_dict = arabic_dict
         self.num_dict = num_dict
         self.sign_dict_fa = sign_dict_fa
-        self.english_dict = english_dict
         self.special_char_dict = special_char_dict
         self.month_dict = month_dict
         self.normalizer = Normalizer(statistical_space_correction=True)
