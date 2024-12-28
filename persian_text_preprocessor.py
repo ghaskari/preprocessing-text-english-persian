@@ -45,6 +45,7 @@ class PersianTextPreprocessor:
         self.sign_dict_fa = sign_dict_fa
         self.special_char_dict = special_char_dict
         self.month_dict = month_dict
+        self.date_converter = convert_persian_date
         self.normalizer = Normalizer(statistical_space_correction=True)
         self.tokenizer = Tokenizer()
         self.stemmer = FindStems()
@@ -303,7 +304,6 @@ class PersianTextPreprocessor:
             self.sign_dict_fa,
             self.arabic_dict,
             self.num_dict,
-            self.english_dict,
             self.special_char_dict,
         ]
         for dictionary in dictionaries:
@@ -373,37 +373,28 @@ class PersianTextPreprocessor:
 
         return text
 
-class ColumnProcessor:
-
-    def __init__(self, text_preprocessor, date_converter):
-        self.text_preprocessor = text_preprocessor
-        self.date_converter = date_converter
-
-    # def process_column(self, column):
-    #     column = column.apply(self.text_preprocessor.to_lower_case)  # Convert to lowercase
-    #     column = column.apply(self.text_preprocessor.remove_elements)  # Clean mentions, hashtags, etc.
-    #     column = column.apply(self.text_preprocessor.remove_url)  # Remove URLs
-    #     column = column.apply(self.text_preprocessor.remove_encoded_email_strings)  # Remove encoded emails
-    #     column = column.apply(self.text_preprocessor.remove_html_tags)  # Remove HTML tags
-    #     column = column.apply(self.text_preprocessor.remove_emails)  # Remove standard emails
-    #     column = column.apply(self.text_preprocessor.remove_emails) # Remove emoji
-    #     column = column.apply(self.text_preprocessor.pre_process)  # Apply dictionary-based corrections
-    #     column = column.apply(self.text_preprocessor.separate_cases)  # Handle mixed-case/letter-number joins
-    #     column = column.apply(self.text_preprocessor.remove_english_words)  # Remove English words
-    #     column = column.apply(self.text_preprocessor.handle_persian_punctuation)  # Fix punctuation spacing
-    #     column = column.apply(self.text_preprocessor.clean_farsi_text_punctuation)  # Clean text punctuation
-    #     column = column.apply(self.text_preprocessor.remove_cyrillic)  # Remove Cyrillic characters
-    #     column = column.apply(self.text_preprocessor.remove_numbers_only_cells)  # Remove numeric-only cells
-    #     column = column.apply(self.text_preprocessor.remove_half_space)  # Handle Persian half-spaces
-    #     column = column.apply(self.text_preprocessor.spell_check)  # Spell-check and normalize with Parsivar
-    #     column = column.apply(self.date_converter.convert_persian_to_standard_digits)
-    #     column = column.apply(lambda text: ' '.join(
-    #         self.text_preprocessor.stemmer.convert_to_stem(token)
-    #         for token in self.text_preprocessor.remove_stopwords(
-    #             self.text_preprocessor.tokenizer.tokenize_words(text)
-    #         )
-    #     ))
-    #     return column
-
     def process_column(self, column):
-        return column.apply(self.text_preprocessor.process_text)
+        column = column.apply(self.to_lower_case)  # Convert to lowercase
+        column = column.apply(self.remove_elements)  # Clean mentions, hashtags, etc.
+        column = column.apply(self.remove_url)  # Remove URLs
+        column = column.apply(self.remove_encoded_email_strings)  # Remove encoded emails
+        column = column.apply(self.remove_html_tags)  # Remove HTML tags
+        column = column.apply(self.remove_emails)  # Remove standard emails
+        column = column.apply(self.remove_emails) # Remove emoji
+        column = column.apply(self.pre_process)  # Apply dictionary-based corrections
+        column = column.apply(self.separate_cases)  # Handle mixed-case/letter-number joins
+        column = column.apply(self.remove_english_words)  # Remove English words
+        column = column.apply(self.handle_persian_punctuation)  # Fix punctuation spacing
+        column = column.apply(self.clean_farsi_text_punctuation)  # Clean text punctuation
+        column = column.apply(self.remove_cyrillic)  # Remove Cyrillic characters
+        column = column.apply(self.remove_numbers_only_cells)  # Remove numeric-only cells
+        column = column.apply(self.remove_half_space)  # Handle Persian half-spaces
+        column = column.apply(self.spell_check)  # Spell-check and normalize with Parsivar
+        column = column.apply(self.date_converter.convert_persian_to_standard_digits)
+        column = column.apply(lambda text: ' '.join(
+            self.stemmer.convert_to_stem(token)
+            for token in self.remove_stopwords(
+                self.tokenizer.tokenize_words(text)
+            )
+        ))
+        return column

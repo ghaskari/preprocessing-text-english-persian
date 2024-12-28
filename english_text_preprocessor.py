@@ -1,12 +1,11 @@
 import re
-from num2words import num2words
 from spellchecker import SpellChecker
 import unicodedata
 import emoji
-# import nltk
-# nltk.download('stopwords')
-# nltk.download('punkt')
-# nltk.download('wordnet')
+import nltk
+nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('wordnet')
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
@@ -305,9 +304,6 @@ class EnglishTextPreprocessor:
             return ''
         return text
 
-    def convert_numbers_to_words_en(self, text):
-        return re.sub(r'\d+', lambda x: num2words(int(x.group()), lang='en'), text)
-
     def normalize_text(self, text):
         tokens = word_tokenize(text)
         return tokens
@@ -349,8 +345,6 @@ class EnglishTextPreprocessor:
             column = column.apply(self.clean_english_text_punctuation)
         if config["remove_numbers_only"]:
             column = column.apply(self.remove_numbers_only_cells)
-        if config["convert_numbers_to_words"]:
-            column = column.apply(self.convert_numbers_to_words_en)
         if config["normalize_text"]:
             column = column.apply(self.normalize_text)
         if config["remove_stopwords"]:
