@@ -98,6 +98,7 @@ def main():
     # Save the cleaned data
     cleaned_file_path = os.path.join(output_directory, "cleaned_data.csv")
     save_cleaned_data(cleaned_df, cleaned_file_path)
+    print(cleaned_df)
 
 
 if __name__ == "__main__":
