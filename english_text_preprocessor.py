@@ -2,10 +2,10 @@ import re
 from spellchecker import SpellChecker
 import unicodedata
 import emoji
-import nltk
-nltk.download('stopwords')
-nltk.download('punkt')
-nltk.download('wordnet')
+# import nltk
+# nltk.download('stopwords')
+# nltk.download('punkt')
+# nltk.download('wordnet')
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
@@ -185,7 +185,9 @@ class EnglishTextPreprocessor:
         misspelled_words = spell.unknown(text.split())
         for word in text.split():
             if word in misspelled_words:
-                corrected_text.append(spell.correction(word))
+                correction = spell.correction(word)
+                corrected_text.append(
+                    correction if correction is not None else word)  # Use the original word if correction is None
             else:
                 corrected_text.append(word)
         return " ".join(corrected_text)

@@ -22,6 +22,8 @@ def load_text_files(english_path, persian_path):
         # Combine into a DataFrame
         data = {'English': english_lines, 'Persian': persian_lines}
         df = pd.DataFrame(data)
+        print(df)
+
         return df
     except Exception as e:
         print(f"Error loading text files: {e}")
@@ -47,29 +49,29 @@ def process_text_data(df):
     persian_processor = PersianTextPreprocessor()
     english_processor = EnglishTextPreprocessor()
 
-    try:
-        # Process columns
-        df['Cleaned_English'] = english_processor.process_column(df['English'])
-        df['Cleaned_Persian'] = persian_processor.process_column(df['Persian'])
+    # try:
+    # Process columns
+    df['Cleaned_English'] = english_processor.process_column(df['English'])
+    df['Cleaned_Persian'] = persian_processor.process_column(df['Persian'])
 
-        # Remove records with brackets and other undesired content
-        df = delete_records_with_brackets(df, 'Cleaned_English')
-        df = delete_records_with_brackets(df, 'Cleaned_Persian')
+    # Remove records with brackets and other undesired content
+    df = delete_records_with_brackets(df, 'Cleaned_English')
+    df = delete_records_with_brackets(df, 'Cleaned_Persian')
 
-        # Drop rows with empty or blank values
-        df = df.dropna(how='any', ignore_index=True)
-        df = df[~df.apply(lambda x: x.str.strip().eq('').any(), axis=1)]
+    # Drop rows with empty or blank values
+    df = df.dropna(how='any', ignore_index=True)
+    df = df[~df.apply(lambda x: x.str.strip().eq('').any(), axis=1)]
 
-        # Ensure rows where cleaned columns differ
-        df_filtered = df[df['Cleaned_English'] != df['Cleaned_Persian']]
+    # Ensure rows where cleaned columns differ
+    df_filtered = df[df['Cleaned_English'] != df['Cleaned_Persian']]
 
-        # Finalize columns for saving
-        df_final = df_filtered[['Cleaned_English', 'Cleaned_Persian']]
-        df_final.columns = ['English', 'Persian']
-        return df_final
-    except Exception as e:
-        print(f"Error processing text data: {e}")
-        return None
+    # Finalize columns for saving
+    df_final = df_filtered[['Cleaned_English', 'Cleaned_Persian']]
+    df_final.columns = ['English', 'Persian']
+    return df_final
+    # except Exception as e:
+    #     print(f"Error processing text data: {e}")
+    #     return None
 
 
 def save_cleaned_data(df, save_path):
