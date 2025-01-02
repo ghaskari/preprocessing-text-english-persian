@@ -12,7 +12,7 @@ from Dictionaries_Fa import (
 )
 
 
-class convert_persian_date:
+class ConvertPersianDate:
     def convert_persian_to_standard_digits(self, text):
 
         persian_to_standard = str.maketrans("۰۱۲۳۴۵۶۷۸۹", "0123456789")
@@ -47,7 +47,7 @@ class PersianTextPreprocessor:
         self.sign_dict_fa_phase_two = sign_dict_fa_phase_two
         self.special_char_dict = special_char_dict
         self.month_dict = month_dict
-        self.date_converter = convert_persian_date
+        self.date_converter = ConvertPersianDate
         self.normalizer = Normalizer(statistical_space_correction=True)
         self.tokenizer = Tokenizer()
         self.stemmer = FindStems()
@@ -56,8 +56,6 @@ class PersianTextPreprocessor:
             with open(stopword_file, "r", encoding="utf-8") as file:
                 self.stopwords = set(file.read().splitlines())
 
-
-        # Task-specific configurations
         self.task_config = {
             "default": {
                 "lowercase": True,
@@ -69,14 +67,18 @@ class PersianTextPreprocessor:
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
                 "apply_dictionary_replacements_signs": True,
+                "remove_english_words": True,
+                "handle_persian_punctuation": True,
                 "separate_cases": True,
                 "clean_punctuation": True,
                 "remove_numbers_only": True,
                 "convert_numbers_to_words": True,
+                "check_spell": True,
                 "normalize_text": True,
                 "remove_stopwords": True,
                 "apply_stemming": False,
                 "apply_lemmatization": True,
+                "remove_half_space": True,
                 "clean_extra_spaces": True,
             },
             "translation": {
@@ -89,14 +91,18 @@ class PersianTextPreprocessor:
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
                 "apply_dictionary_replacements_signs": False,
+                "remove_english_words": False,
+                "handle_persian_punctuation": False,
                 "separate_cases": False,
                 "clean_punctuation": True,
                 "remove_numbers_only": False,
                 "convert_numbers_to_words": False,
+                "check_spell": True,
                 "normalize_text": False,
                 "remove_stopwords": False,
                 "apply_stemming": False,
                 "apply_lemmatization": False,
+                "remove_half_space": False,
                 "clean_extra_spaces": True,
             },
             "sentiment": {
@@ -109,14 +115,18 @@ class PersianTextPreprocessor:
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
                 "apply_dictionary_replacements_signs": True,
+                "remove_english_words": False,
+                "handle_persian_punctuation": True,
                 "separate_cases": True,
                 "clean_punctuation": True,
                 "remove_numbers_only": True,
                 "convert_numbers_to_words": False,
+                "check_spell": True,
                 "normalize_text": True,
                 "remove_stopwords": True,
                 "apply_stemming": False,
                 "apply_lemmatization": True,
+                "remove_half_space": True,
                 "clean_extra_spaces": True,
             },
             "ner": {
@@ -129,14 +139,18 @@ class PersianTextPreprocessor:
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
                 "apply_dictionary_replacements_signs": True,
+                "remove_english_words": False,
+                "handle_persian_punctuation": True,
                 "separate_cases": True,
                 "clean_punctuation": True,
                 "remove_numbers_only": False,
                 "convert_numbers_to_words": False,
+                "check_spell": True,
                 "normalize_text": True,
                 "remove_stopwords": False,
                 "apply_stemming": False,
                 "apply_lemmatization": False,
+                "remove_half_space": True,
                 "clean_extra_spaces": True,
             },
             "topic_modeling": {
@@ -149,14 +163,18 @@ class PersianTextPreprocessor:
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
                 "apply_dictionary_replacements_signs": True,
+                "remove_english_words": True,
+                "handle_persian_punctuation": True,
                 "separate_cases": True,
                 "clean_punctuation": True,
                 "remove_numbers_only": True,
                 "convert_numbers_to_words": False,
                 "normalize_text": True,
                 "remove_stopwords": True,
+                "check_spell": True,
                 "apply_stemming": True,
                 "apply_lemmatization": True,
+                "remove_half_space": True,
                 "clean_extra_spaces": True,
             },
             "spam_detection": {
@@ -169,14 +187,18 @@ class PersianTextPreprocessor:
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
                 "apply_dictionary_replacements_signs": True,
+                "remove_english_words": True,
+                "handle_persian_punctuation": True,
                 "separate_cases": True,
                 "clean_punctuation": True,
                 "remove_numbers_only": False,
                 "convert_numbers_to_words": False,
                 "normalize_text": True,
+                "check_spell": True,
                 "remove_stopwords": True,
                 "apply_stemming": False,
                 "apply_lemmatization": True,
+                "remove_half_space": True,
                 "clean_extra_spaces": True,
             },
             "summarization": {
@@ -189,14 +211,18 @@ class PersianTextPreprocessor:
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
                 "apply_dictionary_replacements_signs": False,
+                "remove_english_words": True,
+                "handle_persian_punctuation": True,
                 "separate_cases": True,
                 "clean_punctuation": True,
                 "remove_numbers_only": False,
                 "convert_numbers_to_words": False,
+                "check_spell": True,
                 "normalize_text": True,
                 "remove_stopwords": False,
                 "apply_stemming": False,
                 "apply_lemmatization": True,
+                "remove_half_space": True,
                 "clean_extra_spaces": True,
             },
         }
@@ -309,6 +335,9 @@ class PersianTextPreprocessor:
 
         return text
 
+    def clean_extra_spaces(self, text):
+        return re.sub(r'\s+', ' ', text).strip()
+
     def pre_process_signs(self, text):
         text = text.lower()
         dictionaries = [
@@ -361,27 +390,27 @@ class PersianTextPreprocessor:
             column = column.apply(self.remove_elements)
         if config["apply_dictionary_replacements"]:
             column = column.apply(self.pre_process_alphabet_numbers)
-        # if config["apply_dictionary_replacements_signs"]:
-        #     column = column.apply(self.pre_process_signs)
-        # if config['remove_english_words']:
-        #     column = column.apply(self.remove_english_words)
-        # if config['handle_persian_punctuation']:
-        #     column = column.apply(self.handle_persian_punctuation)
+        if config["apply_dictionary_replacements_signs"]:
+            column = column.apply(self.pre_process_signs)
+        if config['remove_english_words']:
+            column = column.apply(self.remove_english_words)
+        if config['handle_persian_punctuation']:
+            column = column.apply(self.handle_persian_punctuation)
         if config["separate_cases"]:
             column = column.apply(self.separate_cases)
         if config["clean_punctuation"]:
             column = column.apply(self.clean_farsi_text_punctuation)
         if config["remove_numbers_only"]:
             column = column.apply(self.remove_numbers_only_cells)
-        # if config['check_spell']:
-        #     column = column.apply(self.spell_check)
+        if config['check_spell']:
+            column = column.apply(self.spell_check)
         handle_emojis_strategy = config.get("handle_emojis")
         if handle_emojis_strategy:
             column = self.handle_emojis(column, handle_emojis_strategy)
         if config["normalize_text"]:
             column = column.apply(self.pre_process_alphabet_numbers)
-        # if config['remove_half_space']:
-        #     column = column.apply(self.remove_half_space)
+        if config['remove_half_space']:
+            column = column.apply(self.remove_half_space)
         # if config["remove_stopwords"]:
         #     tokens = self.tokenizer.tokenize_words(text)
         #     tokens = self.remove_stopwords(tokens)
@@ -392,10 +421,10 @@ class PersianTextPreprocessor:
         # if config["apply_lemmatization"]:
         #     tokens = self.tokenizer.tokenize_words(text)
         #     text = ' '.join(self.stemmer.convert_to_stem(token) for token in tokens)
-        # if config["clean_extra_spaces"]:
-        #     column = re.sub(r'\s+', ' ', column).strip()
+        if config["clean_extra_spaces"]:
+            column = column.apply(self.clean_extra_spaces)
 
-        column = column.apply(lambda x: convert_persian_date().handle_persian_dates(x, convert_to_standard=True))
+        column = column.apply(lambda x: ConvertPersianDate().handle_persian_dates(x, convert_to_standard=True))
 
         return column
 
@@ -417,6 +446,6 @@ class PersianTextPreprocessor:
         column = column.apply(self.remove_numbers_only_cells)  # Remove numeric-only cells
         column = column.apply(self.remove_half_space)  # Handle Persian half-spaces
         column = column.apply(self.spell_check)  # Spell-check and normalize with Parsivar
-        column = column.apply(lambda x: convert_persian_date().handle_persian_dates(x, convert_to_standard=True))
+        column = column.apply(lambda x: ConvertPersianDate().handle_persian_dates(x, convert_to_standard=True))
 
         return column

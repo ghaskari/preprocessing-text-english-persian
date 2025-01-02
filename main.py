@@ -77,7 +77,7 @@ def main():
     if df is None:
         print("Failed to load files. Exiting.")
         return
-    df = df.iloc[36870:,:]
+    df = df.iloc[30600:,:]
     print(df)
 
     cleaned_df = process_text_data(df)
