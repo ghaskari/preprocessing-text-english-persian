@@ -166,6 +166,8 @@ sign_dict_en = {
 
 # Similar to sign_dict_en, but for Persian text; maps Persian punctuation marks and symbols to standardized forms or spaces.
 sign_dict_fa_phase_one = {
+    '%d': ' ',
+    '%s': ' ',
     r"\u200c": " ",
     ',': ' ، ',  # Maps comma to Persian comma
     ';': ' ؛ ',  # Maps semicolon to Persian semicolon

@@ -386,6 +386,9 @@ sign_dict_fa = {
 
 # Maps a variety of special characters, symbols, accented characters, and some foreign characters to either their base form or removes them entirely.
 special_char_dict = {
+    '%d': ' ',
+    '%s': ' ',
+    "'": " ' ",
     '©': '',  # Removes copyright symbol
     '♫': ' ',  # Maps music note symbol to space
     '♪': ' ',  # Maps another music note symbol to space
@@ -394,7 +397,6 @@ special_char_dict = {
     'ُ': '',  # Removes Arabic damma
     'ø': '',  # Removes Danish/Norwegian 'o' with stroke
     '—': ' ',  # Maps em dash to space
-    "'": '',  # Removes apostrophe
     '&': ' ',  # Maps ampersand to space
     'σ': '',  # Removes Greek sigma
     '‘': '',  # Removes left single quotation mark
