@@ -172,6 +172,7 @@ contractions_dict = {
 
 # Maps various punctuation marks, symbols, and some special characters in English text to standardized forms, spaces, or removes them entirely.
 sign_dict_en = {
+    "%s": ' ',
     ".": ' ',
     ":": ' ',
     '(': ' ',  # Maps left parenthesis to space

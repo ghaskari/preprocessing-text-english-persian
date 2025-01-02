@@ -50,10 +50,10 @@ arabic_dict = {
     'ة': 'ه',  # Maps Arabic 'ta marbuta' to Persian 'ه'
     'ه': 'ه',  # Maps Arabic/Persian 'he' to itself
     'ہ': 'ه',  # Maps Urdu 'he' to Persian 'ه'
-    'آ': 'ا',  # Maps Arabic 'alif with madda' to standard 'ا'
+    'آ': ' ا',  # Maps Arabic 'alif with madda' to standard 'ا'
     'أ': 'ا',  # Maps Arabic 'alif with hamza above' to standard 'ا'
     'إ': 'ا',  # Maps Arabic 'alif with hamza below' to standard 'ا'
-    'ا': 'ا',  # Maps Arabic/Persian 'alif' to itself
+    # 'ا': 'ا',  # Maps Arabic/Persian 'alif' to itself
     'ء': 'ا',  # Maps Arabic hamza to 'ا'
     'ً': ' ',  # Removes Arabic tanween (fathatain)
     'ٌ': ' ',  # Removes Arabic tanween (dammatain)
@@ -87,7 +87,6 @@ sign_dict_en = {
     ":": ' ',
     '(': ' ',  # Maps left parenthesis to space
     ')': ' ',  # Maps right parenthesis to space
-    "-": ' ',
     '...': ' ',  # Maps ellipsis to a single period surrounded by spaces
     '..': ' ',  # Maps double period to a single period surrounded by spaces
     '. . .': ' ',  # Maps spaced ellipsis to a single period surrounded by spaces
@@ -166,7 +165,119 @@ sign_dict_en = {
 }
 
 # Similar to sign_dict_en, but for Persian text; maps Persian punctuation marks and symbols to standardized forms or spaces.
-sign_dict_fa = {
+sign_dict_fa_phase_one = {
+    r"\u200c": " ",
+    ',': ' ، ',  # Maps comma to Persian comma
+    ';': ' ؛ ',  # Maps semicolon to Persian semicolon
+    '؛': ' ؛ ',  # Maps Persian semicolon to space
+    '?': ' ؟ ',  # Maps question mark to Persian question mark
+    '؟': ' ؟ ',  # Maps Persian question mark to space
+    '!': ' ! ',  # Maps exclamation mark to space
+    '$': ' $ ',  # Removes dollar sign
+    '%': ' ٪ ',  # Maps percent sign to space
+    '٪': ' ٪ ',  # Maps Persian percent sign to space
+    ':': ' : ',  # Maps colon to space
+    '...': ' ',  # Maps ellipsis to a single period surrounded by spaces
+    '..': ' ',  # Maps double period to a single period surrounded by spaces
+    '. . .': ' ',  # Maps spaced ellipsis to a single period surrounded by spaces
+    '.': ' . ',
+    '…': ' ',  # Maps ellipsis symbol to a single period surrounded by spaces
+    '،': ' ، ',
+    '-': ' ',  # Maps hyphen to space
+    '—': ' ',  # Maps em dash to space
+    '_': ' ',  # Maps underscore to space
+    '@': '',  # Removes at symbol
+    '#': '',  # Removes hashtag
+    '^': '',  # Removes caret
+    '&': '',  # Removes ampersand
+    '*': '',  # Removes asterisk
+    '{': '',  # Removes left curly brace
+    '}': '',  # Removes right curly brace
+    r'\\': '',  # Removes backslash
+    '`': '',  # Removes backtick
+    '|': '',  # Removes pipe symbol
+    '•': ' ',  # Maps bullet point to space
+    '。': ' ',  # Maps Chinese period to space
+    '¡': ' ',  # Maps inverted exclamation mark to space
+    '¿': ' ',  # Maps inverted question mark to space
+    '¨': ' ',  # Maps diaeresis to space
+    '¯': ' ',  # Maps macron to space
+    '°': ' ',  # Maps degree sign to space
+    '±': ' ',  # Maps plus-minus sign to space
+    '²': ' ',  # Maps squared sign to space
+    '³': ' ',  # Maps cubed sign to space
+    '´': ' ',  # Maps acute accent to space
+    'µ': ' ',  # Maps micro sign to space
+    '¶': ' ',  # Maps paragraph sign to space
+    '·': ' ',  # Maps middle dot to space
+    '¸': ' ',  # Maps cedilla to space
+    '¹': ' ',  # Maps superscript one to space
+    '☑': ' ',  # Maps ballot box with check to space
+    '↓': ' ',  # Maps downwards arrow to space
+    '➡': ' ',  # Maps rightwards arrow to space
+    '⬅': ' ',  # Maps leftwards arrow to space
+    '▫': ' ',  # Maps white small square to space
+    '⃣': ' ',  # Maps keycap to space
+    '<': ' ',  # Maps less-than sign to space
+    '>': ' ',  # Maps greater-than sign to space
+    '+': ' ',  # Maps plus sign to space
+    '~': ' ',  # Maps tilde to space
+    '=': ' ',  # Maps equals sign to space
+    '×': ' ',  # Maps multiplication sign to space
+    '《': ' ',  # Maps Chinese left double angle quote to space
+    '》': ' ',  # Maps Chinese right double angle quote to space
+    'ٔ': ' ',  # Maps Arabic mark to space
+    '「': ' ',  # Maps Chinese left corner bracket to space
+    '」': ' ',  # Maps Chinese right corner bracket to space
+    '、': ' ',  # Maps Chinese comma to space
+    '｀': ' ',  # Maps Japanese full-width grave accent to space
+    '〜': ' ',  # Maps Japanese wave dash to space
+    'ヽ': ' ',  # Maps Japanese iteration mark to space
+    r'\n': ' ',  # Maps newline character to space
+    r'\r': ' ',  # Maps carriage return character to space
+    r'\t': ' ',  # Maps tab character to space
+    '\\': ' ',  # Maps single backslash to space
+    '‎': ' ',  # Maps left-to-right mark to space
+    r'\u00A0': ' ',  # Maps non-breaking space to space
+    '–': ' ',  # Maps en dash to space
+    'ّ': '',  # Removes Arabic shadda
+    'َ': '',  # Removes Arabic fatha
+    'ُ': '',  # Removes Arabic damma
+    'ِ': '',  # Removes Arabic kasra
+    'ٌ': '',  # Removes Arabic dammatain
+    'ٍ': '',  # Removes Arabic kasratain
+    'ً': '',  # Removes Arabic fathatain
+    '٬': ' ',  # Replace Arabic thousands separator with a space
+    '​': '',  # Remove zero-width space
+    '¬': '',  # Remove not sign
+    '÷': ' ',  # Replace division sign with a space
+    ']': ' ',  # Replace right square bracket with a space
+    '®': '',  # Remove registered trademark symbol
+    '�': '',  # Remove replacement character
+    '№': ' ',  # Replace numero sign with a space
+    '∆': ' ',  # Replace delta symbol with a space
+    'ŭ': 'u',  # Replace u with breve to 'u'
+    '[': ' ',  # Replace left square bracket with a space
+    '√': ' ',  # Replace square root symbol with a space
+    '﻿': '',  # Remove zero-width no-break space (BOM)
+    '/': ' ',  # Replace forward slash with a space
+    'ٰ': '',  # Remove Arabic superscript alif
+    '＝': ' ',  # Replace full-width equals sign with a space
+    'ھ': 'ه',  # Replace Urdu/Persian 'he' with Arabic 'ه'
+    '⃗': '',  # Remove combining right arrow above
+    '∞': ' ',  # Replace infinity symbol with a space
+    'ۍ': 'ی',  # Replace Pashto 'ye' with Persian/Arabic 'ی'
+    'ە': 'ه',  # Replace Kurdish 'he' with Arabic 'ه'
+    'ª': '',  # Remove feminine ordinal indicator
+    'ې': 'ی',  # Replace Pashto 'ye' with Persian/Arabic 'ی'
+    '‪': '',  # Remove left-to-right embedding (LRE)
+    'ŧ': 't',  # Replace Latin letter 't with stroke' to 't'
+    'ٱ': 'ا',  # Replace Arabic letter 'alif with wasla' to standard 'ا'
+    '£': '',  # Remove pound sign
+    'œ': 'oe',  # Replace Latin ligature 'oe' with 'oe',
+}
+
+sign_dict_fa_phase_two = {
     r"\u200c": " ",
     ',': '،',  # Maps comma to Persian comma
     '،': " ",  # Maps Persian comma to space
@@ -248,7 +359,6 @@ sign_dict_fa = {
     r'\t': ' ',  # Maps tab character to space
     '\\': ' ',  # Maps single backslash to space
     '‎': ' ',  # Maps left-to-right mark to space
-    '‌': ' ',  # Maps zero-width non-joiner to space
     r'\u00A0': ' ',  # Maps non-breaking space to space
     '.': ' ',  # Maps period to space
     '–': ' ',  # Maps en dash to space
@@ -259,21 +369,6 @@ sign_dict_fa = {
     'ٌ': '',  # Removes Arabic dammatain
     'ٍ': '',  # Removes Arabic kasratain
     'ً': '',  # Removes Arabic fathatain
-    '‐': ' ',  # Replace hyphen with a space
-    '‫': '',  # Remove right-to-left embedding
-    '‬': '',  # Remove pop directional formatting
-    '­': '',  # Remove soft hyphen
-    '٫': ' ',  # Replace Arabic decimal separator with a space
-    '⃪': '',  # Remove combining left arrow above
-    'ْ': '',  # Remove Arabic sukun
-    '‐': ' ',  # Replace hyphen with a space
-    '‫': '',  # Remove right-to-left embedding
-    '‬': '',  # Remove pop directional formatting
-    '­': '',  # Remove soft hyphen
-    '٫': ' ',  # Replace Arabic decimal separator with a space
-    '⃪': '',  # Remove combining left arrow above
-    'ْ': '',  # Remove Arabic sukun
-    'ّ': '',  # Remove Arabic shadda (تشديد)
     '٬': ' ',  # Replace Arabic thousands separator with a space
     '​': '',  # Remove zero-width space
     '¬': '',  # Remove not sign

@@ -5,7 +5,8 @@ from parsivar import Normalizer, Tokenizer, FindStems
 from Dictionaries_Fa import (
     arabic_dict,
     num_dict,
-    sign_dict_fa,
+    sign_dict_fa_phase_one,
+    sign_dict_fa_phase_two,
     special_char_dict,
     month_dict
 )
@@ -42,7 +43,8 @@ class PersianTextPreprocessor:
 
         self.arabic_dict = arabic_dict
         self.num_dict = num_dict
-        self.sign_dict_fa = sign_dict_fa
+        self.sign_dict_fa_phase_one = sign_dict_fa_phase_one
+        self.sign_dict_fa_phase_two = sign_dict_fa_phase_two
         self.special_char_dict = special_char_dict
         self.month_dict = month_dict
         self.date_converter = convert_persian_date
@@ -66,6 +68,7 @@ class PersianTextPreprocessor:
                 "remove_url_html": True,
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
+                "apply_dictionary_replacements_signs": True,
                 "separate_cases": True,
                 "clean_punctuation": True,
                 "remove_numbers_only": True,
@@ -84,7 +87,8 @@ class PersianTextPreprocessor:
                 "correct_spelling": False,
                 "remove_url_html": True,
                 "remove_elements": True,
-                "apply_dictionary_replacements": False,
+                "apply_dictionary_replacements": True,
+                "apply_dictionary_replacements_signs": False,
                 "separate_cases": False,
                 "clean_punctuation": True,
                 "remove_numbers_only": False,
@@ -104,6 +108,7 @@ class PersianTextPreprocessor:
                 "remove_url_html": True,
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
+                "apply_dictionary_replacements_signs": True,
                 "separate_cases": True,
                 "clean_punctuation": True,
                 "remove_numbers_only": True,
@@ -123,6 +128,7 @@ class PersianTextPreprocessor:
                 "remove_url_html": True,
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
+                "apply_dictionary_replacements_signs": True,
                 "separate_cases": True,
                 "clean_punctuation": True,
                 "remove_numbers_only": False,
@@ -142,6 +148,7 @@ class PersianTextPreprocessor:
                 "remove_url_html": True,
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
+                "apply_dictionary_replacements_signs": True,
                 "separate_cases": True,
                 "clean_punctuation": True,
                 "remove_numbers_only": True,
@@ -161,6 +168,7 @@ class PersianTextPreprocessor:
                 "remove_url_html": True,
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
+                "apply_dictionary_replacements_signs": True,
                 "separate_cases": True,
                 "clean_punctuation": True,
                 "remove_numbers_only": False,
@@ -180,6 +188,7 @@ class PersianTextPreprocessor:
                 "remove_url_html": True,
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
+                "apply_dictionary_replacements_signs": False,
                 "separate_cases": True,
                 "clean_punctuation": True,
                 "remove_numbers_only": False,
@@ -194,18 +203,14 @@ class PersianTextPreprocessor:
 
         self.current_task_config = self.task_config.get(task, self.task_config["default"])
 
-
     def spell_check(self, text):
-
         return self.normalizer.normalize(text)
 
     def remove_stopwords(self, tokens):
-
         return [token for token in tokens if token not in self.stopwords]
 
     def to_lower_case(self, text):
         text = text.lower()
-
         return text
 
     def separate_cases(self, text):
@@ -235,7 +240,6 @@ class PersianTextPreprocessor:
     def remove_html_tags(self, text):
         text = re.sub(r'<[^>]+>', '', text)
         text = re.sub(r'<.*?>+', '', text)
-
         return text
 
     def remove_encoded_email_strings(self, text):
@@ -248,7 +252,6 @@ class PersianTextPreprocessor:
         text = re.sub(r'\b[\w\.-]+@[\w\.-]+\.\w+\b', '', text)
         text = re.sub(r'[^\x00-\x7F]+<[\w\.\-]+@[\w\.\-]+\.[a-zA-Z]{2,}>', '', text)
         text = re.sub(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', '', text)
-
         return text
 
     def remove_elements(self, text):
@@ -263,26 +266,20 @@ class PersianTextPreprocessor:
         text = re.sub(r'\b\d{1,3}(?:\.\d{1,3}){3}\b(?:\:\d+)?', '', text)  # Handle IP addresses with optional port numbers
         text = text.replace('\n', ' ')  # Replace newline characters with a space
         text = text.lower()  # Convert all text to lowercase
-
         return text
 
     def handle_persian_punctuation(self, text):
-
         text = re.sub(r'\s+', ' ', text)
-
         text = text.strip()
-
         return text
 
     def clean_farsi_text_punctuation(self, text):
-
         text = re.sub(r'\s+', ' ', text) # Replace multiple spaces with a single space
         text = re.sub(r'\s+', ' ', text)  # Replace multiple spaces with a single space
         text = re.sub(r'\.(?=\S)', '. ', text)  # Ensure space after a period
         text = re.sub(r'\b\d{1,2} [A-Za-z]+ \d{4}\b', '', text)  # Remove dates (e.g., "1 July 1818")
         text = re.sub(r'\s+', ' ', text)  # Replace multiple spaces with a single space
         text = re.sub(r'\s+', ' ', text).strip()  # Final cleanup of extra spaces
-
         return text
 
     def remove_english_words(self, persian_text):
@@ -298,13 +295,24 @@ class PersianTextPreprocessor:
         cleaned_text = re.sub(cyrillic_pattern, '', text)
         return cleaned_text
 
-    def pre_process(self, text):
+    def pre_process_alphabet_numbers(self, text):
         text = text.lower()
         dictionaries = [
-            self.sign_dict_fa,
+            self.sign_dict_fa_phase_one,
             self.arabic_dict,
             self.num_dict,
             self.special_char_dict,
+        ]
+        for dictionary in dictionaries:
+            for key, value in dictionary.items():
+                text = re.sub(re.escape(key), value, text)
+
+        return text
+
+    def pre_process_signs(self, text):
+        text = text.lower()
+        dictionaries = [
+            self.sign_dict_fa_phase_two,
         ]
         for dictionary in dictionaries:
             for key, value in dictionary.items():
@@ -327,51 +335,69 @@ class PersianTextPreprocessor:
             return ''
         return text
 
-    def remove_emoji(self, text):
-        return ''.join(char for char in text if char not in emoji.EMOJI_DATA)
+    def handle_emojis(self, text, strategy):
+        emoji_strategies = {
+            "remove": lambda x: ''.join(char for char in x if char not in emoji.EMOJI_DATA),
+            "replace": lambda x: ''.join(char if char not in emoji.EMOJI_DATA else "[EMOJI]" for char in x),
+            "sentiment": lambda x: ''.join(char if char not in emoji.EMOJI_DATA else "positive" for char in x)
+        }
+        return emoji_strategies[strategy](text) if strategy in emoji_strategies else text
 
-    def process_text(self, text):
+    def process_text(self, column):
         config = self.current_task_config
 
+        column = column.apply(self.remove_cyrillic)
+
         if config["lowercase"]:
-            text = self.to_lower_case(text)
+            column = column.apply(self.to_lower_case)
+
         if config["remove_url_html"]:
-            text = self.remove_url(text)
-            text = self.remove_html_tags(text)
+            column = column.apply(self.remove_url)
+            column = column.apply(self.remove_encoded_email_strings)
+            column = column.apply(self.remove_html_tags)
+            column = column.apply(self.remove_emails)
+
         if config["remove_elements"]:
-            text = self.remove_elements(text)
+            column = column.apply(self.remove_elements)
         if config["apply_dictionary_replacements"]:
-            text = self.pre_process(text)
+            column = column.apply(self.pre_process_alphabet_numbers)
+        # if config["apply_dictionary_replacements_signs"]:
+        #     column = column.apply(self.pre_process_signs)
+        # if config['remove_english_words']:
+        #     column = column.apply(self.remove_english_words)
+        # if config['handle_persian_punctuation']:
+        #     column = column.apply(self.handle_persian_punctuation)
         if config["separate_cases"]:
-            text = self.separate_cases(text)
+            column = column.apply(self.separate_cases)
         if config["clean_punctuation"]:
-            text = self.clean_farsi_text_punctuation(text)
+            column = column.apply(self.clean_farsi_text_punctuation)
         if config["remove_numbers_only"]:
-            text = self.remove_numbers_only_cells(text)
+            column = column.apply(self.remove_numbers_only_cells)
+        # if config['check_spell']:
+        #     column = column.apply(self.spell_check)
+        handle_emojis_strategy = config.get("handle_emojis")
+        if handle_emojis_strategy:
+            column = self.handle_emojis(column, handle_emojis_strategy)
         if config["normalize_text"]:
-            text = self.spell_check(text)
-        if config["remove_stopwords"]:
-            tokens = self.tokenizer.tokenize_words(text)
-            tokens = self.remove_stopwords(tokens)
-            text = ' '.join(tokens)
-        if config["apply_stemming"]:
-            tokens = self.tokenizer.tokenize_words(text)
-            text = ' '.join(self.stemmer.convert_to_stem(token) for token in tokens)
-        if config["apply_lemmatization"]:
-            tokens = self.tokenizer.tokenize_words(text)
-            text = ' '.join(self.stemmer.convert_to_stem(token) for token in tokens)
-        if config["clean_extra_spaces"]:
-            text = re.sub(r'\s+', ' ', text).strip()
+            column = column.apply(self.pre_process_alphabet_numbers)
+        # if config['remove_half_space']:
+        #     column = column.apply(self.remove_half_space)
+        # if config["remove_stopwords"]:
+        #     tokens = self.tokenizer.tokenize_words(text)
+        #     tokens = self.remove_stopwords(tokens)
+        #     text = ' '.join(tokens)
+        # if config["apply_stemming"]:
+        #     tokens = self.tokenizer.tokenize_words(text)
+        #     text = ' '.join(self.stemmer.convert_to_stem(token) for token in tokens)
+        # if config["apply_lemmatization"]:
+        #     tokens = self.tokenizer.tokenize_words(text)
+        #     text = ' '.join(self.stemmer.convert_to_stem(token) for token in tokens)
+        # if config["clean_extra_spaces"]:
+        #     column = re.sub(r'\s+', ' ', column).strip()
 
-        if config["handle_emojis"] == "remove":
-            text = self.remove_emoji(text)
+        column = column.apply(lambda x: convert_persian_date().handle_persian_dates(x, convert_to_standard=True))
 
-        elif config["handle_emojis"] == "replace":
-            text = ''.join(char if char not in emoji.EMOJI_DATA else "[EMOJI]" for char in text)
-        elif config["handle_emojis"] == "sentiment":
-            text = ''.join(char if char not in emoji.EMOJI_DATA else "positive" for char in text)
-
-        return text
+        return column
 
     def process_column(self, column):
         column = column.apply(self.to_lower_case)  # Convert to lowercase
@@ -380,8 +406,9 @@ class PersianTextPreprocessor:
         column = column.apply(self.remove_encoded_email_strings)  # Remove encoded emails
         column = column.apply(self.remove_html_tags)  # Remove HTML tags
         column = column.apply(self.remove_emails)  # Remove standard emails
-        column = column.apply(self.remove_emails) # Remove emoji
-        column = column.apply(self.pre_process)  # Apply dictionary-based corrections
+        column = column.apply(self.handle_emojis) # Remove emoji
+        column = column.apply(self.pre_process_alphabet_numbers)  # Apply dictionary-based corrections
+        column = column.apply(self.pre_process_signs)  # Apply dictionary-based corrections
         column = column.apply(self.separate_cases)  # Handle mixed-case/letter-number joins
         column = column.apply(self.remove_english_words)  # Remove English words
         column = column.apply(self.handle_persian_punctuation)  # Fix punctuation spacing
@@ -390,11 +417,6 @@ class PersianTextPreprocessor:
         column = column.apply(self.remove_numbers_only_cells)  # Remove numeric-only cells
         column = column.apply(self.remove_half_space)  # Handle Persian half-spaces
         column = column.apply(self.spell_check)  # Spell-check and normalize with Parsivar
-        column = column.apply(self.date_converter.convert_persian_to_standard_digits)
-        column = column.apply(lambda text: ' '.join(
-            self.stemmer.convert_to_stem(token)
-            for token in self.remove_stopwords(
-                self.tokenizer.tokenize_words(text)
-            )
-        ))
+        column = column.apply(lambda x: convert_persian_date().handle_persian_dates(x, convert_to_standard=True))
+
         return column
