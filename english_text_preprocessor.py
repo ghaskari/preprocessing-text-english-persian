@@ -138,6 +138,16 @@ class EnglishTextPreprocessor:
     def to_lower_case(self, text):
         return text.lower() if isinstance(text, str) else text
 
+    def clean_text_percent_elements(self, text):
+        text = re.sub(r'%[a-zA-Z]+', '', text) # Remove time-related patterns like %i:%m %p, %a, %b
+        text = re.sub(r'&[a-z]+;', '', text) # Remove HTML or encoded characters
+        text = re.sub(r'\s+', ' ', text).strip() # Normalize spaces
+
+        # Remove special characters
+       # text = re.sub(r'[^\w\s\u0600-\u06FF]', '', text)  # Keeps Persian and English characters only
+
+        return text
+
     def normalize_unicode(self, text):
         return unicodedata.normalize("NFKC", text) if isinstance(text, str) else text
 
@@ -177,6 +187,9 @@ class EnglishTextPreprocessor:
     def remove_elements(self, text):
         text = re.sub(r"@\w+", "", text)  # Remove mentions
         text = re.sub(r"#\w+", "", text)  # Remove hashtags
+        text = re.sub(r'%[a-zA-Z]+', '', text)  # Remove time-related patterns like %i:%m %p, %a, %b
+        text = re.sub(r'&[a-z]+;', '', text) # Remove HTML or encoded characters
+        text = re.sub(r'\s+', ' ', text).strip()
         return text
 
     def clean_punctuation(self, text):
@@ -189,6 +202,9 @@ class EnglishTextPreprocessor:
         for dictionary in dictionaries:
             for key, value in dictionary.items():
                 text = text.replace(key, value)
+
+        text = re.sub(r'([^\w\s])', r'\1 ', text)  # Add a space after every character
+
         return text
 
     def remove_stopwords(self, tokens):

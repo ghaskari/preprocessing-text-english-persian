@@ -291,6 +291,9 @@ class PersianTextPreprocessor:
         text = re.sub(r'\s+', ' ', text)  # Remove multiple spaces
         text = re.sub(r'\b\d{1,3}(?:\.\d{1,3}){3}\b(?:\:\d+)?', '', text)  # Handle IP addresses with optional port numbers
         text = text.replace('\n', ' ')  # Replace newline characters with a space
+        text = re.sub(r'%[a-zA-Z]+', '', text) # Remove time-related patterns like %i:%m %p, %a, %b
+        text = re.sub(r'&[a-z]+;', '', text) # Remove HTML or encoded characters
+        text = re.sub(r'\s+', ' ', text).strip() # Normalize spaces
         text = text.lower()  # Convert all text to lowercase
         return text
 
@@ -332,6 +335,9 @@ class PersianTextPreprocessor:
         for dictionary in dictionaries:
             for key, value in dictionary.items():
                 text = re.sub(re.escape(key), value, text)
+
+        signs_and_symbols = r'[،؛؟٪…»«ـ!@#$%^&*()_+=\[\]{}|\\:;"\'<>,./؟]'
+        text = re.sub(f'({signs_and_symbols})', r'\1 ', text) # Add space after each matched sign or symbol
 
         return text
 
