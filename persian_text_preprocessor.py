@@ -102,7 +102,7 @@ class PersianTextPreprocessor:
                 "remove_stopwords": False,
                 "apply_stemming": False,
                 "apply_lemmatization": False,
-                "remove_half_space": False,
+                "remove_half_space": True,
                 "clean_extra_spaces": True,
             },
             "sentiment": {
@@ -357,10 +357,10 @@ class PersianTextPreprocessor:
 
     def remove_half_space(self, text):
         pattern = r'(\u200C)(ی|ها|می|تر|ترین)'
-
         text = re.sub(pattern, r' \2', text)
-        text = text.replace('\u200C', '')
         text = re.sub(r'(?<!\s)ی(?!\s)', r' ی ', text)
+        text = re.sub(r'\s+', ' ', text).strip()
+        text = text.replace('\u200C', '')
 
         return text
 
@@ -431,28 +431,6 @@ class PersianTextPreprocessor:
         if config["clean_extra_spaces"]:
             column = column.apply(self.clean_extra_spaces)
 
-        column = column.apply(lambda x: ConvertPersianDate().handle_persian_dates(x, convert_to_standard=True))
-
-        return column
-
-    def process_column(self, column):
-        column = column.apply(self.to_lower_case)  # Convert to lowercase
-        column = column.apply(self.remove_elements)  # Clean mentions, hashtags, etc.
-        column = column.apply(self.remove_url)  # Remove URLs
-        column = column.apply(self.remove_encoded_email_strings)  # Remove encoded emails
-        column = column.apply(self.remove_html_tags)  # Remove HTML tags
-        column = column.apply(self.remove_emails)  # Remove standard emails
-        column = column.apply(self.handle_emojis) # Remove emoji
-        column = column.apply(self.pre_process_alphabet_numbers)  # Apply dictionary-based corrections
-        column = column.apply(self.pre_process_signs)  # Apply dictionary-based corrections
-        column = column.apply(self.separate_cases)  # Handle mixed-case/letter-number joins
-        column = column.apply(self.remove_english_words)  # Remove English words
-        column = column.apply(self.handle_persian_punctuation)  # Fix punctuation spacing
-        column = column.apply(self.clean_farsi_text_punctuation)  # Clean text punctuation
-        column = column.apply(self.remove_cyrillic)  # Remove Cyrillic characters
-        column = column.apply(self.remove_numbers_only_cells)  # Remove numeric-only cells
-        column = column.apply(self.remove_half_space)  # Handle Persian half-spaces
-        column = column.apply(self.spell_check)  # Spell-check and normalize with Parsivar
         column = column.apply(lambda x: ConvertPersianDate().handle_persian_dates(x, convert_to_standard=True))
 
         return column
