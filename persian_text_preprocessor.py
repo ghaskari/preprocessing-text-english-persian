@@ -356,10 +356,11 @@ class PersianTextPreprocessor:
         return text
 
     def remove_half_space(self, text):
-        pattern = r'(\u200C)(ها|می|تر|ترین)'
+        pattern = r'(\u200C)(ی|ها|می|تر|ترین)'
 
         text = re.sub(pattern, r' \2', text)
         text = text.replace('\u200C', '')
+        text = re.sub(r'(?<!\s)ی(?!\s)', r' ی ', text)
 
         return text
 
