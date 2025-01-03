@@ -143,7 +143,6 @@ class EnglishTextPreprocessor:
         text = re.sub(r'&[a-z]+;', '', text) # Remove HTML or encoded characters
         text = re.sub(r'\s+', ' ', text).strip() # Normalize spaces
 
-        # Remove special characters
        # text = re.sub(r'[^\w\s\u0600-\u06FF]', '', text)  # Keeps Persian and English characters only
 
         return text
@@ -189,14 +188,16 @@ class EnglishTextPreprocessor:
         text = re.sub(r"#\w+", "", text)  # Remove hashtags
         text = re.sub(r'%[a-zA-Z]+', '', text)  # Remove time-related patterns like %i:%m %p, %a, %b
         text = re.sub(r'&[a-z]+;', '', text) # Remove HTML or encoded characters
-        text = re.sub(r'\s+', ' ', text).strip()
+        text = re.sub(r"([!?,.:;'\-\"(){}\[\]])", r" \1 ", text)
         return text
 
     def clean_punctuation(self, text):
         return re.sub(r"[^\w\s]", "", text)
 
     def clean_extra_spaces(self, text):
-        return re.sub(r"\s+", " ", text).strip()
+        text = text.replace('\n', ' \n ')
+        # text = text.replace('\n', ' ')
+        return text
 
     def apply_dictionaries(self, text, dictionaries):
         for dictionary in dictionaries:
@@ -220,18 +221,6 @@ class EnglishTextPreprocessor:
         if config["lowercase"]:
             column = column.apply(self.to_lower_case)
 
-        if config["normalize_unicode"]:
-            column = column.apply(self.normalize_unicode)
-
-        if config["remove_accents"]:
-            column = column.apply(self.remove_accents)
-
-        if config["handle_emojis"]:
-            column = column.apply(lambda x: self.handle_emojis(x, strategy=config["handle_emojis"]))
-
-        if config["correct_spelling"]:
-            column = column.apply(self.correct_spelling)
-
         if config["remove_url_html"]:
             column = column.apply(self.remove_url_and_html)
 
@@ -250,6 +239,18 @@ class EnglishTextPreprocessor:
         if config["clean_punctuation"]:
             column = column.apply(self.clean_punctuation)
 
+        if config["normalize_unicode"]:
+            column = column.apply(self.normalize_unicode)
+        #
+        if config["remove_accents"]:
+            column = column.apply(self.remove_accents)
+
+        if config["handle_emojis"]:
+            column = column.apply(lambda x: self.handle_emojis(x, strategy=config["handle_emojis"]))
+        #
+        if config["correct_spelling"]:
+            column = column.apply(self.correct_spelling)
+        #
         if config["apply_normalization"]:
             column = column.apply(self.normalize_unicode)
 

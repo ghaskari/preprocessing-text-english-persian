@@ -15,6 +15,17 @@ def remove_rows_with_only_signs(df, column_name):
     """
     signs_and_symbols = r'^[^\w\u0600-\u06FF]+$'
     mask = df[column_name].apply(lambda x: bool(re.match(signs_and_symbols, str(x))) if isinstance(x, str) else False)
+
+    return df[~mask]
+
+
+def remove_rows_with_only_numbers(df, column_name):
+    """
+    Remove rows where the specified column contains only numbers.
+    """
+    numbers_pattern = r'^\d+$'  # Matches cells that contain only digits
+    mask = df[column_name].apply(lambda x: bool(re.match(numbers_pattern, str(x))) if isinstance(x, str) else False)
+
     return df[~mask]
 
 
@@ -37,6 +48,10 @@ def process_text_data(df, task):
     df['Cleaned_English'] = english_processor.process_column(df['English'])
     df['Cleaned_Persian'] = persian_processor.process_text(df['Persian'])
 
+    # Remove rows with only numbers
+    df = remove_rows_with_only_numbers(df, 'Cleaned_English')
+    df = remove_rows_with_only_numbers(df, 'Cleaned_Persian')
+
     # Remove rows with text in brackets
     df = delete_records_with_brackets(df, 'Cleaned_English')
     df = delete_records_with_brackets(df, 'Cleaned_Persian')
@@ -48,6 +63,7 @@ def process_text_data(df, task):
     # Remove rows with only signs or symbols
     df = remove_rows_with_only_signs(df, 'Cleaned_English')
     df = remove_rows_with_only_signs(df, 'Cleaned_Persian')
+    df = df.drop_duplicates(subset=['Cleaned_English', 'Cleaned_Persian'])
 
     # Keep only cleaned columns
     df_final = df[['Cleaned_English', 'Cleaned_Persian']]

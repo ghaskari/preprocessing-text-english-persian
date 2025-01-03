@@ -256,8 +256,55 @@ sign_dict_en = {
 
 # Maps a variety of special characters, symbols, accented characters, and some foreign characters to either their base form or removes them entirely.
 special_char_dict = {
-    '%d': ' ',
-    '%s': ' ',
+    ':': ' : ',
+    ';': ' ; ',
+    '•': ' ',  # Maps bullet point to space
+    '。': ' ',  # Maps Chinese period to space
+    '¡': ' ',  # Maps inverted exclamation mark to space
+    '¿': ' ',  # Maps inverted question mark to space
+    '¨': ' ',  # Maps diaeresis to space
+    '¯': ' ',  # Maps macron to space
+    '°': ' ',  # Maps degree sign to space
+    '±': ' ',  # Maps plus-minus sign to space
+    '²': ' ',  # Maps squared sign to space
+    '³': ' ',  # Maps cubed sign to space
+    '´': ' ',  # Maps acute accent to space
+    'µ': ' ',  # Maps micro sign to space
+    '¶': ' ',  # Maps paragraph sign to space
+    '·': ' ',  # Maps middle dot to space
+    '¸': ' ',  # Maps cedilla to space
+    '¹': ' ',  # Maps superscript one to space
+    '☑': ' ',  # Maps ballot box with check to space
+    '↓': ' ',  # Maps downwards arrow to space
+    '➡': ' ',  # Maps rightwards arrow to space
+    '⬅': ' ',  # Maps leftwards arrow to space
+    '▫': ' ',  # Maps white small square to space
+    '⃣': ' ',  # Maps keycap to space
+    '»': ' ',  # Maps right double angle quote to standard double quote
+    '«': ' ',  # Maps left double angle quote to standard double quote
+    '<': ' ',  # Maps less-than sign to space
+    '>': ' ',  # Maps greater-than sign to space
+    '+': ' ',  # Maps plus sign to space
+    '~': ' ',  # Maps tilde to space
+    '=': ' ',  # Maps equals sign to space
+    '×': ' ',  # Maps multiplication sign to space
+    '《': ' ',  # Maps Chinese left double angle quote to space
+    '》': ' ',  # Maps Chinese right double angle quote to space
+    '「': ' ',  # Maps Chinese left corner bracket to space
+    '」': ' ',  # Maps Chinese right corner bracket to space
+    '、': ' ',  # Maps Chinese comma to space
+    '｀': ' ',  # Maps Japanese full-width grave accent to space
+    'ً': ' ',  # Maps Arabic fathatain to space
+    '〜': ' ',  # Maps Japanese wave dash to space
+    'ヽ': ' ',  # Maps Japanese iteration mark to space
+    r'\n': ' ',  # Maps newline character to space
+    r'\t': ' ',  # Maps tab character to space
+    r'\r': ' ',  # Maps carriage return character to space
+    ',': ' ',  # Maps comma to space
+    '£': ' ',  # Maps pound sign to space
+    '¢': ' ',  # Maps cent sign to space
+    '€': ' ',  # Maps euro sign to space
+    '\\': ' ',  # Maps single backslash to space
     "'": " ' ",
     '©': '',  # Removes copyright symbol
     '♫': ' ',  # Maps music note symbol to space
@@ -317,7 +364,6 @@ special_char_dict = {
     '医': '',  # Removes Chinese character
     '疗': '',  # Removes Chinese character
     '心': '',  # Removes Chinese character
-    '€': ' ',  # Maps euro sign to space
     '国': '',  # Removes Chinese character
     '科': '',  # Removes Chinese character
     '学': '',  # Removes Chinese character
@@ -348,8 +394,7 @@ special_char_dict = {
     '¾': '3/4',  # Maps fraction three-fourths to '3/4'
     'ç': 'c',  # Maps French 'c with cedilla' to 'c'
     'ã': 'a',  # Maps Portuguese 'a with tilde' to 'a'
-    '>': '>',  # Keeps greater-than sign
-    '<': '<',  # Keeps less-than sign
+
     '?': '?',  # Keeps question mark
     'ü': 'u',  # Maps accented 'u' to 'u'
     r'^': r'^',  # Keeps caret
@@ -426,8 +471,12 @@ special_char_dict = {
     '‪': '',  # Remove left-to-right embedding (LRE)
     'ŧ': 't',  # Replace Latin letter 't with stroke' to 't'
     'ٱ': 'ا',  # Replace Arabic letter 'alif with wasla' to standard 'ا'
-    '£': '',  # Remove pound sign
     'œ': 'oe',  # Replace Latin ligature 'oe' with 'oe'
+    # '\n': ' ',
+    # '\t': ' ',
+    ';': ' ; ',
+    '%d': ' ',
+    '%s': ' ',
 }
 
 # Maps abbreviations of month names to their full form, handling both lowercase and capitalized abbreviations.
