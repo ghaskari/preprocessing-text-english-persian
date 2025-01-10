@@ -14,7 +14,6 @@ def remove_rows_with_only_signs(df, column_name):
     """
     signs_and_symbols = r'^[^\w\u0600-\u06FF]+$'
     mask = df[column_name].apply(lambda x: bool(re.match(signs_and_symbols, str(x))) if isinstance(x, str) else False)
-
     return df[~mask]
 
 
@@ -24,7 +23,6 @@ def remove_rows_with_only_numbers(df, column_name):
     """
     numbers_pattern = r'^\d+$'  # Matches cells that contain only digits
     mask = df[column_name].apply(lambda x: bool(re.match(numbers_pattern, str(x))) if isinstance(x, str) else False)
-
     return df[~mask]
 
 
@@ -36,38 +34,49 @@ def delete_records_with_brackets(df, column_name):
     return df[~df[column_name].str.contains(pattern, na=False)]
 
 
-def process_text_data(df, task):
+def process_text_data(df, task, column=None):
     """
     Process text data for a specific task.
     """
-    persian_processor = PersianTextPreprocessor(task=task)
-    english_processor = EnglishTextPreprocessor(task=task)
+    if task == "translation":
+        if not {'English', 'Persian'}.issubset(df.columns):
+            raise ValueError("Translation task requires both 'English' and 'Persian' columns.")
+        persian_processor = PersianTextPreprocessor(task=task)
+        english_processor = EnglishTextPreprocessor(task=task)
 
-    # Process English and Persian columns
-    df['Cleaned_English'] = english_processor.process_column(df['English'])
-    df['Cleaned_Persian'] = persian_processor.process_text(df['Persian'])
+        # Process English and Persian columns
+        df['Cleaned_English'] = english_processor.process_column(df['English'])
+        df['Cleaned_Persian'] = persian_processor.process_text(df['Persian'])
 
-    # Remove rows with only numbers
-    df = remove_rows_with_only_numbers(df, 'Cleaned_English')
-    df = remove_rows_with_only_numbers(df, 'Cleaned_Persian')
+        # Remove unwanted rows
+        df = remove_rows_with_only_numbers(df, 'Cleaned_English')
+        df = remove_rows_with_only_numbers(df, 'Cleaned_Persian')
+        df = delete_records_with_brackets(df, 'Cleaned_English')
+        df = delete_records_with_brackets(df, 'Cleaned_Persian')
+        df = remove_rows_with_only_signs(df, 'Cleaned_English')
+        df = remove_rows_with_only_signs(df, 'Cleaned_Persian')
+        df = df.drop_duplicates(subset=['Cleaned_English', 'Cleaned_Persian'])
 
-    # Remove rows with text in brackets
-    df = delete_records_with_brackets(df, 'Cleaned_English')
-    df = delete_records_with_brackets(df, 'Cleaned_Persian')
+        # Keep only cleaned columns
+        df_final = df[['Cleaned_English', 'Cleaned_Persian']]
+        df_final.columns = ['English', 'Persian']
+        return df_final
+    else:
+        if column not in df.columns:
+            raise ValueError(f"The specified column '{column}' is not in the dataset.")
 
-    # Drop rows with NA values and empty strings
-    df = df.dropna(how='any').reset_index(drop=True)
-    df = df[~df.apply(lambda x: x.str.strip().eq('').any(), axis=1)]
+        processor = PersianTextPreprocessor(task=task) if task in ['ner', 'sentiment'] else EnglishTextPreprocessor(
+            task=task)
+        df[f'Cleaned_{column}'] = processor.process_column(df[column])
 
-    # Remove rows with only signs or symbols
-    df = remove_rows_with_only_signs(df, 'Cleaned_English')
-    df = remove_rows_with_only_signs(df, 'Cleaned_Persian')
-    df = df.drop_duplicates(subset=['Cleaned_English', 'Cleaned_Persian'])
+        df = remove_rows_with_only_numbers(df, f'Cleaned_{column}')
+        df = delete_records_with_brackets(df, f'Cleaned_{column}')
+        df = remove_rows_with_only_signs(df, f'Cleaned_{column}')
+        df = df.drop_duplicates(subset=[f'Cleaned_{column}'])
 
-    # Keep only cleaned columns
-    df_final = df[['Cleaned_English', 'Cleaned_Persian']]
-    df_final.columns = ['English', 'Persian']
-    return df_final
+        df_final = df[[f'Cleaned_{column}']]
+        df_final.columns = [column]
+        return df_final
 
 
 def save_cleaned_data(df, save_path):
@@ -75,8 +84,9 @@ def save_cleaned_data(df, save_path):
     Save the cleaned data to a specified file path.
     """
     try:
-        df.to_excel(f'{save_path}.xlsx', index=False)
         df.to_csv(f'{save_path}.csv', index=False, encoding='utf-8')
+        df.to_excel(f'{save_path}.xlsx', index=False)
+
         print(df)
         print(f"Cleaned data saved to {save_path}")
     except Exception as e:
@@ -93,6 +103,8 @@ def main():
                                  "summarization"],
                         help="Task configuration to use for processing.")
     parser.add_argument("--input", type=str, required=True, help="Path to the input CSV file.")
+    parser.add_argument("--column", type=str,
+                        help="Column name to process (if task doesn't require both English and Persian).")
     parser.add_argument("--output", type=str, default=output_directory, help="Directory to save the cleaned data.")
     args = parser.parse_args()
 
@@ -105,13 +117,12 @@ def main():
     print("Loaded data:")
     print(df)
 
-    cleaned_df = process_text_data(df, args.task)
-    if cleaned_df is None:
-        print("Data processing failed. Exiting.")
-        return
-
-    cleaned_file_path = os.path.join(args.output, f"cleaned_data_{args.task}")
-    save_cleaned_data(cleaned_df, cleaned_file_path)
+    try:
+        cleaned_df = process_text_data(df, args.task, column=args.column)
+        cleaned_file_path = os.path.join(args.output, f"cleaned_data_{args.task}")
+        save_cleaned_data(cleaned_df, cleaned_file_path)
+    except Exception as e:
+        print(f"Error during processing: {e}")
 
 
 if __name__ == "__main__":
