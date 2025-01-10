@@ -81,11 +81,17 @@ def process_text_data(df, task, column=None):
 
 def save_cleaned_data(df, save_path):
     """
-    Save the cleaned data to a specified file path.
+    Save the cleaned data to a specified file path. Creates the directory if it doesn't exist.
     """
     try:
-        df.to_csv(f'{save_path}.csv', index=False, encoding='utf-8')
+        # Extract directory from save_path and create it if it doesn't exist
+        output_dir = os.path.dirname(save_path)
+        if output_dir and not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+
+        # Save the data in both Excel and CSV formats
         df.to_excel(f'{save_path}.xlsx', index=False)
+        df.to_csv(f'{save_path}.csv', index=False, encoding='utf-8')
 
         print(df)
         print(f"Cleaned data saved to {save_path}")
