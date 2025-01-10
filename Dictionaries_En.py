@@ -472,7 +472,8 @@ special_char_dict = {
     'ŧ': 't',  # Replace Latin letter 't with stroke' to 't'
     'ٱ': 'ا',  # Replace Arabic letter 'alif with wasla' to standard 'ا'
     'œ': 'oe',  # Replace Latin ligature 'oe' with 'oe'
-    # '\n': ' ',
+    '\n': '  \n',
+    '\n': ' ',
     # '\t': ' ',
     ';': ' ; ',
     '%d': ' ',

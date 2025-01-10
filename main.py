@@ -5,7 +5,6 @@ import argparse
 from persian_text_preprocessor import PersianTextPreprocessor
 from english_text_preprocessor import EnglishTextPreprocessor
 
-# Output directory for cleaned data
 output_directory = "DataSource"
 
 
@@ -76,7 +75,9 @@ def save_cleaned_data(df, save_path):
     Save the cleaned data to a specified file path.
     """
     try:
-        df.to_csv(save_path, index=False, encoding='utf-8')
+        df.to_excel(f'{save_path}.xlsx', index=False)
+        df.to_csv(f'{save_path}.csv', index=False, encoding='utf-8')
+        print(df)
         print(f"Cleaned data saved to {save_path}")
     except Exception as e:
         print(f"Error saving data: {e}")
@@ -95,7 +96,6 @@ def main():
     parser.add_argument("--output", type=str, default=output_directory, help="Directory to save the cleaned data.")
     args = parser.parse_args()
 
-    # Load the input CSV file
     try:
         df = pd.read_csv(args.input)
     except Exception as e:
@@ -105,14 +105,12 @@ def main():
     print("Loaded data:")
     print(df)
 
-    # Process the text data for the specified task
     cleaned_df = process_text_data(df, args.task)
     if cleaned_df is None:
         print("Data processing failed. Exiting.")
         return
 
-    # Save the cleaned data
-    cleaned_file_path = os.path.join(args.output, f"cleaned_data_{args.task}.csv")
+    cleaned_file_path = os.path.join(args.output, f"cleaned_data_{args.task}")
     save_cleaned_data(cleaned_df, cleaned_file_path)
 
 
