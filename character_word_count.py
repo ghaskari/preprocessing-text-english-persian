@@ -1,51 +1,82 @@
+import os
 import pandas as pd
 
 
 class WordCharacterCount:
-    def save_data_to_excel(self, df, filename):
-        filename = f"FrequencyCount/{filename}.xlsx"
-        df.to_excel(filename, index=False)
+    def __init__(self, output_directory="FrequencyCount"):
+        """
+        Initialize the WordCharacterCount class with the output directory.
+        """
+        self.output_directory = output_directory
+        # Ensure the output directory exists
+        if not os.path.exists(self.output_directory):
+            os.makedirs(self.output_directory)
 
-    def save_data_to_csv(self, df, filename):
-        filename = f"FrequencyCount/{filename}.csv"
-        df.to_csv(filename, index=False)
+    def save_data_to_file(self, df, filename, file_type="csv"):
+        """
+        Save a DataFrame to a file (CSV or Excel) in the specified output directory.
+        """
+        filepath = os.path.join(self.output_directory, f"{filename}.{file_type}")
+        if file_type == "csv":
+            df.to_csv(filepath, index=False, encoding="utf-8")
+        elif file_type == "xlsx":
+            df.to_excel(filepath, index=False, engine="openpyxl")
+        else:
+            raise ValueError("Unsupported file type. Use 'csv' or 'xlsx'.")
+        print(f"Saved {file_type.upper()} file to {filepath}")
 
-    def word_count(self, data, file_name=''):
+    def word_count(self, data, file_name="word_frequency"):
+        """
+        Generate a word frequency count from the input data.
+
+        Args:
+            data (list): List of text strings to analyze.
+            file_name (str): Base name for the output file.
+
+        Returns:
+            pd.DataFrame: DataFrame containing word frequencies.
+        """
         word_freq = {}
         for row in data:
-        # split the text into words
-            words = row.split(' ')
-            # iterate over each word
+            # Split the text into words
+            words = row.split()
             for word in words:
-                # if the word is already in the dictionary, increase its count by 1
-                if word in word_freq:
-                    word_freq[word] += 1
-            # if the word is not in the dictionary, add it and set its count to 1
-                else:
-                    word_freq[word] = 1
+                word_freq[word] = word_freq.get(word, 0) + 1
 
-        # convert the dictionary into a dataframe and sort by the word frequency
-        word_freq_df = pd.DataFrame(list(word_freq.items()), columns=['word', 'frequency']).sort_values('frequency', ascending=False).reset_index(drop=True)
-        self.save_data_to_excel(word_freq_df, f'WordsCount_{file_name}')
+        # Convert to a DataFrame and sort by frequency
+        word_freq_df = pd.DataFrame(
+            list(word_freq.items()), columns=["Word", "Frequency"]
+        ).sort_values(by="Frequency", ascending=False).reset_index(drop=True)
+
+        # Save results to CSV and Excel
+        self.save_data_to_file(word_freq_df, f"{file_name}_WordsCount", file_type="csv")
+        self.save_data_to_file(word_freq_df, f"{file_name}_WordsCount", file_type="xlsx")
+
         return word_freq_df
 
-    def character_count(self, data, file_name):
-        characters_freq = {}
-        # iterate over each row in the data
+    def character_count(self, data, file_name="char_frequency"):
+        """
+        Generate a character frequency count from the input data.
+
+        Args:
+            data (list): List of text strings to analyze.
+            file_name (str): Base name for the output file.
+
+        Returns:
+            pd.DataFrame: DataFrame containing character frequencies.
+        """
+        char_freq = {}
         for row in data:
-            # get the comment from the row
-            comment = row
-            # iterate over each character in the comment
-            for character in comment:
-                # if the character is already in the dictionary, increase its count by 1
-                if character in characters_freq:
-                    characters_freq[character] += 1
-                # if the character is not in the dictionary, add it and set its count to 1
-                else:
-                    characters_freq[character] = 1
+            for char in row:
+                char_freq[char] = char_freq.get(char, 0) + 1
 
-        # convert the dictionary into a dataframe and sort by the character frequency
-        character_freq_df = pd.DataFrame(list(characters_freq.items()), columns=['Character', 'Frequency']).sort_values('Frequency', ascending=False).reset_index(drop=True)
-        self.save_data_to_excel(character_freq_df, f'CharactersCount_{file_name}')
+        # Convert to a DataFrame and sort by frequency
+        char_freq_df = pd.DataFrame(
+            list(char_freq.items()), columns=["Character", "Frequency"]
+        ).sort_values(by="Frequency", ascending=False).reset_index(drop=True)
 
-        return character_freq_df
+        # Save results to CSV and Excel
+        self.save_data_to_file(char_freq_df, f"{file_name}_CharactersCount", file_type="csv")
+        self.save_data_to_file(char_freq_df, f"{file_name}_CharactersCount", file_type="xlsx")
+
+        return char_freq_df
