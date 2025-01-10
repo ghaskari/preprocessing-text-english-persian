@@ -1,81 +1,94 @@
 import pandas as pd
+import argparse
 from sklearn.model_selection import train_test_split
 
-# Constants
-DATA_FILE = 'DataSource/cleaned_OpenSubtitles-fa.csv'
-TARGET_COL = 'target_column'  # Replace with your actual target column name
-TRAIN_RATIO = 0.7
-VAL_RATIO = 0.2
-TEST_RATIO = 0.1
-RANDOM_STATE = 42
+# Constants for default ratios and random state
+DEFAULT_TRAIN_RATIO = 0.7
+DEFAULT_VAL_RATIO = 0.2
+DEFAULT_TEST_RATIO = 0.1
+DEFAULT_RANDOM_STATE = 42
 
 
-def load_and_preprocess_data(file_path):
-    """Load CSV file and preprocess data."""
+def load_csv(file_path):
+    """Load the CSV file and return the DataFrame."""
     try:
         df = pd.read_csv(file_path)
+        print(f"Loaded data from {file_path}. Shape: {df.shape}")
         return df
     except Exception as e:
-        print(f"Error loading data: {e}")
+        print(f"Error loading data from {file_path}: {e}")
         raise
 
 
-def split_train_val_test(df, train_ratio=TRAIN_RATIO, val_ratio=VAL_RATIO, test_ratio=TEST_RATIO,
-                         random_state=RANDOM_STATE):
-    """Split data into train, validation, and test sets."""
-    X = df.drop(TARGET_COL, axis=1)
-    y = df[TARGET_COL]
+def split_data(df, target_col, train_ratio, val_ratio, test_ratio, random_state):
+    """Split the DataFrame into train, validation, and test sets."""
+    if target_col not in df.columns:
+        raise ValueError(f"Target column '{target_col}' not found in the dataset.")
 
-    X_train_temp, X_test_temp, y_train_temp, y_test_temp = train_test_split(
+    X = df.drop(columns=[target_col])
+    y = df[target_col]
+
+    # Split into train and temporary sets
+    X_train_temp, X_test, y_train_temp, y_test = train_test_split(
         X, y, test_size=test_ratio, random_state=random_state
     )
 
-    X_train, X_val_temp, y_train, y_val_temp = train_test_split(
+    # Further split temporary set into train and validation
+    X_train, X_val, y_train, y_val = train_test_split(
         X_train_temp,
         y_train_temp,
-        test_size=(val_ratio + test_ratio) / (1 - train_ratio),
-        random_state=random_state
-    )
-
-    # Final split: Remove test samples from temp set to get final test set
-    X_val, X_test, y_val, y_test = train_test_split(
-        X_val_temp,
-        y_val_temp,
-        test_size=test_ratio / (val_ratio + test_ratio),
+        test_size=val_ratio / (train_ratio + val_ratio),
         random_state=random_state
     )
 
     return X_train, X_val, X_test, y_train, y_val, y_test
 
 
-def save_dataset(df, filename):
-    """Save DataFrame to CSV file."""
+def save_to_csv(features, targets, filename):
+    """Save features and targets as a single CSV file."""
     try:
+        df = features.copy()
+        df['target'] = targets
         df.to_csv(filename, index=False)
-        print(f"Dataset saved to {filename}")
+        print(f"Saved dataset to {filename}")
     except Exception as e:
-        print(f"Error saving dataset: {e}")
+        print(f"Error saving dataset to {filename}: {e}")
 
 
-# Main execution
-if __name__ == "__main__":
+def main():
+    # Argument parser
+    parser = argparse.ArgumentParser(description="Split preprocessed data into train, validation, and test sets.")
+    parser.add_argument("--input", type=str, required=True,
+                        help="Path to the preprocessed CSV file (output of main.py).")
+    parser.add_argument("--target", type=str, required=True, help="Name of the target column in the dataset.")
+    parser.add_argument("--train_ratio", type=float, default=DEFAULT_TRAIN_RATIO,
+                        help="Train set ratio (default: 0.7).")
+    parser.add_argument("--val_ratio", type=float, default=DEFAULT_VAL_RATIO,
+                        help="Validation set ratio (default: 0.2).")
+    parser.add_argument("--test_ratio", type=float, default=DEFAULT_TEST_RATIO, help="Test set ratio (default: 0.1).")
+    parser.add_argument("--random_state", type=int, default=DEFAULT_RANDOM_STATE,
+                        help="Random state for reproducibility.")
+    parser.add_argument("--output_dir", type=str, default="Splits", help="Directory to save the output datasets.")
+    args = parser.parse_args()
+
     try:
-        # Load and preprocess data
-        df = load_and_preprocess_data(DATA_FILE)
+        # Load preprocessed data
+        df = load_csv(args.input)
 
-        # Split data into train, validation, and test sets
-        X_train, X_val, X_test, y_train, y_val, y_test = split_train_val_test(df)
+        # Split the data
+        X_train, X_val, X_test, y_train, y_val, y_test = split_data(
+            df, args.target, args.train_ratio, args.val_ratio, args.test_ratio, args.random_state
+        )
 
-        # Save datasets
-        train_data = pd.DataFrame({'features': X_train, 'target': y_train})
-        val_data = pd.DataFrame({'features': X_val, 'target': y_val})
-        test_data = pd.DataFrame({'features': X_test, 'target': y_test})
-
-        save_dataset(train_data, 'train.csv')
-        save_dataset(val_data, 'validation.csv')
-        save_dataset(test_data, 'test.csv')
+        # Save splits to CSV
+        save_to_csv(X_train, y_train, f"{args.output_dir}/train.csv")
+        save_to_csv(X_val, y_val, f"{args.output_dir}/validation.csv")
+        save_to_csv(X_test, y_test, f"{args.output_dir}/test.csv")
 
         print("Data splitting completed successfully.")
-
     except Exception as e:
-        print(f"An error occurred during data splitting: {e}")
+        print(f"An error occurred: {e}")
+
+
+if __name__ == "__main__":
+    main()
