@@ -1,10 +1,4 @@
 English,Persian
-"GNOME
-","گنوم
-"
-"Default GNOME Theme
-","تم پیش‌فرض گنوم
-"
 "OK
 ","تأیید
 "
@@ -94,204 +88,6 @@ English,Persian
 "
 "Web
 ","وب
-"
-"GNOME
-","گنوم
-"
-"Default GNOME Theme
-","تم پیش‌فرض گنوم
-"
-"OK
-","تأیید
-"
-"Art
-","هنر
-"
-"Camera
-","دوربین
-"
-"Certified
-","تأییدشده
-"
-"Cool
-","باحال
-"
-"Danger
-","خطر
-"
-"Desktop
-","رومیزی
-"
-"Distinguished
-","برجسته
-"
-"Draft
-","پیش‌نویس
-"
-"Handshake
-","دست دادن
-"
-"Marketing
-","بازاریابی
-"
-"Money
-","پول
-"
-"Multimedia
-","چندرسانه‌ای
-"
-"Note
-","یادداشت
-"
-"Oh no!
-","وای نه!
-"
-"People
-","مردم
-"
-"Personal
-","شخصی
-"
-"Pictures
-","تصاویر
-"
-"Plan
-","طرح
-"
-"Presentation
-","نمایش
-"
-"Sales
-","فروش
-"
-"Sound
-","صدا
-"
-"Trash
-","زباله‌دان
-"
-"Favorite
-","محبوب
-"
-"Important
-","مهم
-"
-"Mail
-","نامه
-"
-"Package
-","بسته
-"
-"No read
-","نخواندنی
-"
-"Urgent
-","فوری
-"
-"Web
-","وب
-"
-"GNOME
-","گنوم
-"
-"Default GNOME Theme
-","تم پیش‌فرض گنوم
-"
-"OK
-","تأیید
-"
-"Art
-","هنر
-"
-"Camera
-","دوربین
-"
-"Certified
-","تأییدشده
-"
-"Cool
-","باحال
-"
-"Danger
-","خطر
-"
-"Desktop
-","رومیزی
-"
-"Distinguished
-","برجسته
-"
-"Draft
-","پیش‌نویس
-"
-"Handshake
-","دست دادن
-"
-"Marketing
-","بازاریابی
-"
-"Money
-","پول
-"
-"Multimedia
-","چندرسانه‌ای
-"
-"Note
-","یادداشت
-"
-"Oh no!
-","وای نه!
-"
-"People
-","مردم
-"
-"Personal
-","شخصی
-"
-"Pictures
-","تصاویر
-"
-"Plan
-","طرح
-"
-"Presentation
-","نمایش
-"
-"Sales
-","فروش
-"
-"Sound
-","صدا
-"
-"Trash
-","زباله‌دان
-"
-"Favorite
-","محبوب
-"
-"Important
-","مهم
-"
-"Mail
-","نامه
-"
-"Package
-","بسته
-"
-"No read
-","نخواندنی
-"
-"Urgent
-","فوری
-"
-"Web
-","وب
-"
-"GNOME
-","گنوم
-"
-"Default GNOME Theme
-","تم پیش‌فرض گنوم
 "
 "OK
 ","تأیید
@@ -452,11 +248,185 @@ English,Persian
 "Trash
 ","زباله‌دان
 "
-"Default GNOME Theme
-","تم پیش‌فرض گنوم
+"Favorite
+","محبوب
 "
-"GNOME
-","گنوم
+"Important
+","مهم
+"
+"Mail
+","نامه
+"
+"Package
+","بسته
+"
+"No read
+","نخواندنی
+"
+"Urgent
+","فوری
+"
+"Web
+","وب
+"
+"OK
+","تأیید
+"
+"Art
+","هنر
+"
+"Camera
+","دوربین
+"
+"Certified
+","تأییدشده
+"
+"Cool
+","باحال
+"
+"Danger
+","خطر
+"
+"Desktop
+","رومیزی
+"
+"Distinguished
+","برجسته
+"
+"Draft
+","پیش‌نویس
+"
+"Handshake
+","دست دادن
+"
+"Marketing
+","بازاریابی
+"
+"Money
+","پول
+"
+"Multimedia
+","چندرسانه‌ای
+"
+"Note
+","یادداشت
+"
+"Oh no!
+","وای نه!
+"
+"People
+","مردم
+"
+"Personal
+","شخصی
+"
+"Pictures
+","تصاویر
+"
+"Plan
+","طرح
+"
+"Presentation
+","نمایش
+"
+"Sales
+","فروش
+"
+"Sound
+","صدا
+"
+"Trash
+","زباله‌دان
+"
+"Favorite
+","محبوب
+"
+"Important
+","مهم
+"
+"Mail
+","نامه
+"
+"Package
+","بسته
+"
+"No read
+","نخواندنی
+"
+"Urgent
+","فوری
+"
+"Web
+","وب
+"
+"OK
+","تأیید
+"
+"Art
+","هنر
+"
+"Camera
+","دوربین
+"
+"Certified
+","تأییدشده
+"
+"Cool
+","باحال
+"
+"Danger
+","خطر
+"
+"Desktop
+","رومیزی
+"
+"Distinguished
+","برجسته
+"
+"Draft
+","پیش‌نویس
+"
+"Handshake
+","دست دادن
+"
+"Marketing
+","بازاریابی
+"
+"Money
+","پول
+"
+"Multimedia
+","چندرسانه‌ای
+"
+"Note
+","یادداشت
+"
+"Oh no!
+","وای نه!
+"
+"People
+","مردم
+"
+"Personal
+","شخصی
+"
+"Pictures
+","تصاویر
+"
+"Plan
+","طرح
+"
+"Presentation
+","نمایش
+"
+"Sales
+","فروش
+"
+"Sound
+","صدا
+"
+"Trash
+","زباله‌دان
 "
 "Favorite
 ","محبوب
@@ -1148,9 +1118,6 @@ English,Persian
 "Solitaire
 ","بازی یک نفره
 "
-"GNOME Solitaire
-","بازی یک نفره گنوم
-"
 "About Solitaire
 ","درباره بازی یک نفره
 "
@@ -1222,9 +1189,6 @@ English,Persian
 "
 "translator-credits
 ","آرش موسوی <mousavi\.arash\@gmail\.com> روزبه پورنادر <roozbeh\@farsiweb\.info> بهداد پورنادر <behdad\.p\@gmail\.com> الناز سربر <elnaz\@farsiweb\.info> میلاد زکریا <meelad\@farsiweb\.info>
-"
-"GNOME Games web site
-","پایگاه وب بازی‌های گنوم
 "
 "Play “%s”
 ","بازی کردن «%s»
@@ -3107,9 +3071,6 @@ English,Persian
 "Solitaire
 ","بازی یک نفره
 "
-"GNOME Solitaire
-","بازی یک نفره گنوم
-"
 "About Solitaire
 ","درباره بازی یک نفره
 "
@@ -3181,9 +3142,6 @@ English,Persian
 "
 "translator-credits
 ","آرش موسوی <mousavi\.arash\@gmail\.com> روزبه پورنادر <roozbeh\@farsiweb\.info> بهداد پورنادر <behdad\.p\@gmail\.com> الناز سربر <elnaz\@farsiweb\.info> میلاد زکریا <meelad\@farsiweb\.info>
-"
-"GNOME Games web site
-","پایگاه وب بازی‌های گنوم
 "
 "Play “%s”
 ","بازی کردن «%s»
@@ -4736,9 +4694,6 @@ English,Persian
 "Solitaire
 ","بازی یک نفره‌ی فری‌سل
 "
-"GNOME Solitaire
-","امتیازهای یک‌جور گنوم
-"
 "About Solitaire
 ","بازی با ورق تک نفره‌‌ی AisleRiot
 "
@@ -4813,9 +4768,6 @@ English,Persian
 "
 "translator-credits
 ","روزبه پورنادر <roozbeh\@farsiweb\.info> بهداد پورنادر <behdad\.p\@gmail\.com> الناز سربر <elnaz\@farsiweb\.info> میلاد زکریا <meelad\@farsiweb\.info>
-"
-"GNOME Games web site
-","کارگزار بازی‌های گنوم
 "
 "Display cards with “%s” card theme
 ","%I6d"", else to ""%6dscore
@@ -6425,9 +6377,6 @@ English,Persian
 "Solitaire
 ","بازی یک نفره
 "
-"GNOME Solitaire
-","بازی یک نفره گنوم
-"
 "About Solitaire
 ","درباره بازی یک نفره
 "
@@ -6502,9 +6451,6 @@ English,Persian
 "
 "translator-credits
 ","آرش موسوی <mousavi\.arash\@gmail\.com> روزبه پورنادر <roozbeh\@farsiweb\.info> بهداد پورنادر <behdad\.p\@gmail\.com> الناز سربر <elnaz\@farsiweb\.info> میلاد زکریا <meelad\@farsiweb\.info>
-"
-"GNOME Games web site
-","پایگاه وب بازی‌های گنوم
 "
 "Play “%s”
 ","بازی کردن «%s»
@@ -8126,9 +8072,6 @@ English,Persian
 "Solitaire
 ","بازی یک نفره
 "
-"GNOME Solitaire
-","بازی یک نفره گنوم
-"
 "About Solitaire
 ","درباره بازی یک نفره
 "
@@ -8206,9 +8149,6 @@ English,Persian
 "
 "translator-credits
 ","آرش موسوی <mousavi\.arash\@gmail\.com> روزبه پورنادر <roozbeh\@farsiweb\.info> بهداد پورنادر <behdad\.p\@gmail\.com> الناز سربر <elnaz\@farsiweb\.info> میلاد زکریا <meelad\@farsiweb\.info>
-"
-"GNOME Games web site
-","پایگاه وب بازی‌های گنوم
 "
 "Play “%s”
 ","بازی کردن «%s»
@@ -10025,9 +9965,6 @@ English,Persian
 "Solitaire
 ","بازی یک نفره
 "
-"GNOME Solitaire
-","بازی یک نفره گنوم
-"
 "About Solitaire
 ","درباره بازی یک نفره
 "
@@ -10099,9 +10036,6 @@ English,Persian
 "
 "translator-credits
 ","آرش موسوی <mousavi\.arash\@gmail\.com> روزبه پورنادر <roozbeh\@farsiweb\.info> بهداد پورنادر <behdad\.p\@gmail\.com> الناز سربر <elnaz\@farsiweb\.info> میلاد زکریا <meelad\@farsiweb\.info>
-"
-"GNOME Games web site
-","پایگاه وب بازی‌های گنوم
 "
 "Play “%s”
 ","بازی کردن «%s»
@@ -11918,9 +11852,6 @@ English,Persian
 "Solitaire
 ","بازی یک نفره
 "
-"GNOME Solitaire
-","بازی یک نفره گنوم
-"
 "About Solitaire
 ","درباره بازی یک نفره
 "
@@ -13210,9 +13141,6 @@ English,Persian
 "
 "Move a build of cards on to the empty Tableau slot
 ","جابه‌جایی یک بنا از کارت‌ها به خانه‌ی خالی تابلو
-"
-"GNOME Games web site
-","پایگاه وب بازی‌های گنوم
 "
 "Name
 ","نام
@@ -17818,9 +17746,6 @@ English,Persian
 "
 "Enable CORBA-based AT-SPI infrastructure
 ","به کار انداختن زیر ساخت AT-SPI بر مبنای CORBA
-"
-"In combination with /desktop/gnome/interface/accessibility, this key is needed to enable the CORBA-based AT-SPI infrastructure if the CORBA-based AT-SPI infrastructure has been relocated. It is ignored if the CORBA-based AT-SPI infrastructure has not been relocated.
-","در ترکیب با /desktop/gnome/interface/accessibility، این کلید برای به کار انداختن زیرساخت AT-SPI بر مبنای CORBA لازم است چنانچه CORBA زیرساخت AT-SPI بر مبنای CORBA جابجا شده باشد. در صورت جابجا نشدن CORBA زیرساخت AT-SPI بر مبنای CORBA این کلید نادیده گرفته خواهد شد.
 "
 "AT-SPI Registry
 ","بایگانی AT-SPI
@@ -30698,9 +30623,6 @@ English,Persian
 "Bug Report Tool
 ","ابزار گزارش اشکال
 "
-"Report a bug in GNOME-based applications
-","گزارش اشکالی در برنامه‌های گنومی
-"
 "Bug reporter name
 ","نام گزارش کنندهٔ اشکال
 "
@@ -30709,9 +30631,6 @@ English,Persian
 "
 "Email Address
 ","آدرس پست الکترونیکی
-"
-"Email Address for submitting bug reports to GNOME Bugzilla. This address will be used for correspondence regarding the bug you are submitting. If you already have a GNOME Bugzilla account, please use it as your Email Address.
-","نشانی پست الکترونیک برای ارسال گزارش‌های اشکال به باگزیلای گنوم. این نشانی برای مکاتبه در مورد اشکالی که اکنون ارسال می‌کنید استفاده خواهد شد. اگر قبلاً حسابی در باگزیلای گنوم دارد لطفاً آن را به عنوان نشانی پست الکترونیکی خود وارد کنید.
 "
 "File to store unsent bug reports.
 ","پرونده برای ذخیرهٔ گزارش‌های اشکال
@@ -30746,9 +30665,6 @@ English,Persian
 "Bug Buddy was unable to view the link ""%s""
 ","باگ‌بادی نتوانست پیوند «‎%s» را نمایش دهد
 "
-"A bug report detailing your software crash has been sent to GNOME. This information will allow the developers to understand the cause of the crash and prepare a solution for it. You may be contacted by a GNOME developer if more details are required about the crash. You can view your bug report and follow its progress with this URL:
-","یک گزارش اشکال با جزئیات فروپاشی نرم‌افزار شما برای گنوم فرستاده شد. برنامه‌سازان با استفاده از این اطلاعات خواهند توانست دلیل فروپاشی را تشخیص داده و راه حلی برای آن بیابند. شاید در صورت نیاز به جزئیات بیشتر در مورد فروپاشی یکی از برنامه‌سازان گنوم با شما تماس بگیرد. می‌توانید گزارش اشکال خود و پیشرفت پیگیری آن را از این نشانی دنبال کنید:
-"
 "Bug Buddy has encountered an error while submitting your report to the Bugzilla server. Details of the error are included below.
 ","باگ‌بادی هنگام ارسال گزارش شما به کارگزار باگزیلا با خطایی مواجه شد. جزئیات خطا در زیر آمده است.
 "
@@ -30773,17 +30689,8 @@ English,Persian
 "The description is required in your bug report. This should not happen with the latest Bug Buddy.
 ","شرح از اجزای ضروری گزارش اشکال شماست. این اتفاق در باگ‌بادی‌های جدید رخ نمی‌دهد.
 "
-"The fault code returned by Bugzilla is not recognized. Please report the following information to bugzilla.gnome.org manually: %s
-","کُد خطای برگردانده شده از باگزیلا شناسایی نمی‌شود. لطفاً اطلاعات زیر را به طور دستی در ‎bugzilla.gnome.org گزارش کنید: %s
-"
-"Server returned bad state. This is most likely a server issue and should be reported to bugmaster@gnome.org %s
-","کارگزار وضعیت قرمز برگرداند. به احتمال زیاد مشکل از طرف کارگزار است و باید به bugmaster@gnome.org گزارش شود. %s
-"
 "Failed to parse the xml-rpc response. Response follows: %s
 ","تجزیهٔ پاسخ xml-rpc شکست خورد. پاسخ از این قرار است: %s
-"
-"An unknown error occurred. This is most likely a problem with bug-buddy. Please report this problem manually at bugzilla.gnome.org
-","خطای نامعلومی رخ داد. به احتمال زیاد مشکل از طرف باگ‌بادی است. لطفاً این مشکل را به صورت دستی در bugzilla.gnome.org وارد کنید
 "
 "Unable to create the bug report: %s
 ","ایجاد گزارش اشکال ممکن نیست: %s
@@ -30815,14 +30722,8 @@ English,Persian
 "_Save Bug Report
 ","_ارسال گزارش
 "
-"The application %s has crashed. Information about the crash has been successfully collected. This application is not known to bug-buddy, therefore the bug report cannot be sent to the GNOME Bugzilla. Please save the bug to a text file and report it to the appropriate bug tracker for this application.
-","اطلاعات راجع به فروپاشی در سیستم شما با موفقیت جمع‌آوری شد. باگ‌بادی برنامه‌ای را که دچار فروپاشی شده نمی‌شناسد، بنابراین نمی‌تواند گزارش اشکال را برای باگزیلای گنوم بفرستد. لطفاً اشکال را در یک پروندهٔ متنی ذخیره کنید و آن را به محل مناسب برای گزارش اشکالات این برنامه ارسال کنید.
-"
 "There was an error displaying help: %s
 ","هنگام اجرای gdb خطایی پیش آمد: %s
-"
-"Bug Buddy is a utility that helps report debugging information to the GNOME Bugzilla when a program crashes.
-","باگ‌بادی برنامه‌ای است که هنگام فروپاشی برنامه‌ها به گزارش اطلاعات اشکال‌زدایی آنها به باگزیلای گنوم کمک می‌کند.
 "
 "Bug Buddy could not load its user interface file. Please make sure Bug Buddy was installed correctly.
 ","باگ‌بادی قادر به بار کردن پروندهٔ واسط کاربرش (%s) نبود. لطفاً اطمینان حاصل کنید که باگ‌بادی درست نصب شده است.
@@ -30835,9 +30736,6 @@ English,Persian
 "
 "Either --pid , --include or --minidump arguments are required.
 ","Either --pid or --include arguments are required.
-"
-"Bug Buddy was unable to retrieve information regarding the version of GNOME you are running. This is most likely due to a missing installation of gnome-desktop.
-","باگ‌بادی نتوانست به اطلاعات مرتبط با نسخهٔ گنوم شما را دست پیدا کند. به احتمال زیاد دلیل این مسئله عدم نصب gnome-desktop است.
 "
 "The %s application has crashed. We are collecting information about the crash to send to the developers in order to fix the problem.
 ","برنامهٔ %s دچار فروپاشی شده است. شما در حال جمع‌آوری اطلاعات راجع به فروپاشی و ارسال آنها به برنامه‌سازان هستید تا برای رفع مشکل اقدام کنند.
@@ -30856,9 +30754,6 @@ English,Persian
 "
 "Suggestion / Error description:
 ","پیشنهاد / شرح خطا:
-"
-"Application does not track its bugs in the GNOME Bugzilla.
-","برنامه نتوانست اشکالاتش را در باگزیلای کنوم ردیابی کند.
 "
 "gdb has already exited
 ","gdb قبلاً خارج شده است

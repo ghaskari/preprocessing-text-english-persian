@@ -1,6 +1,4 @@
 English,Persian
-gnome ,گنوم
-default gnome theme ,تمپیشفرض گنوم
 ok ,تایید
 art ,هنر
 camera ,دوربین
@@ -252,7 +250,6 @@ whether the window is fullscreen ,اینکه ایاپنجرهتمامصفحه ا
 window width ,عرض پنجره
 window height ,ارتفاع پنجره
 solitaire ,بازی یک نفره
-gnome solitaire ,بازی یکنفره گنوم
 about solitaire ,درباره بازی یک نفره
 select the game type to play ,یک نوع بازی برای بازیکردن انتخاب کنید
 name ,نام
@@ -274,7 +271,6 @@ card games  :    ,بازی های کارتی :
 card themes  :    ,تم های کارت :
 aisleriot provides a rule -  based solitaire card engine that allows many different games to be played .   ,ایلرایت یک موتور قانونی برای کارت بازی یک نفره ارایه میکند که انجام بازی های متفاوتی را ممکن میسازد .
 translator -  credits ,ارش موسوی روزبهپورنادربهدادپورنادرالنازسربر میلاد زکریا
-gnome games web site ,پایگاه وب بازی های گنوم
 play    ,بازی کردن « »
 display cards with    card theme ,نمایش کارت ها با تم « »
 a scheme exception occurred ,یک استثنا شما رخ داد .
@@ -703,7 +699,6 @@ gold mine ,معدن الماس
 sol ,حل
 zebra ,گورخر
 solitaire ,بازی یکنفرهیفریسل
-gnome solitaire ,امتیازهاییکجورگنوم
 about solitaire ,بازی با ورقتکنفرهیaisleriot
 select the game type to play ,حل کردن بازی
 congratulations    you have won   ,تبریک شما بردید
@@ -712,7 +707,6 @@ card themes  :    ,بازی های کارتی :
 about freecell solitaire ,بازی یکنفرهیفریسل
 about aisleriot ,ایلرایت
 translator -  credits ,روزبهپورنادربهدادپورنادرالنازسربر میلاد زکریا
-gnome games web site ,کارگزار بازی های گنوم
 display cards with    card theme ,"6d "" ، elseto "" ٪6dscore"
  report ,دوربری
  recently played ,نام بازیکن ها
@@ -1108,7 +1102,6 @@ at spi registry ,بایگانیatspi
 gtk  modules for accessibility support ,ماژول هایgtk برای پشتیبانی از دسترسیپذیری
 this key determines the gtk  modules to load for accessibility support .   ,این کلید تعیینکنندهپیمانه هایgtk است ، برای بارکردن برای پشتیبانی از دسترسیپذیری .
 enable corba -  based at -  spi infrastructure ,به کار انداختن زیر ساختatspi بر مبنای corba
-in combination with  desktop gnome interface accessibility    this key is needed to enable the corba -  based at -  spi infrastructure if the corba -  based at -  spi infrastructure has been relocated .   it is ignored if the corba -  based at -  spi infrastructure has not been relocated .   ,در ترکیب باdesktopgnomeinterfaceaccessibility ، این کلید برای به کار انداختن زیرساختatspi بر مبنای corba لازم است چنانچه corbaزیرساختatspi بر مبنای corba جابجا شدهباشد . در صورت جابجا نشدن corbaزیرساختatspi بر مبنای corba این کلید نادیده گرفته خواهد شد .
 a simple application which can scan either specific folders  (  local or remote )   or volumes and give a graphical representation including each directory size or percentage .   ,یک برنامه ساده که میتواند هم پوشه های مشخصی ( محلی و یا دوردست ) و هم جلدها را پایش کند و یک نمایش گرافیکی شامل حجم شاخه ها یا درصد انها را ارایه کند .
 disk usage analyzer ,تحلیلگر فضای مصرفی دیسک
 check folder sizes and available disk space ,بررسی اندازه پوشه ها و فضای دیسک در دسترس
@@ -1972,11 +1965,9 @@ your  email address  :    ,نشانی پست الکترونیکی شما :
 send  other pending crash reports ,گزارش های اشکال فرستاده نشده دیگر هم ارسال شود
  send ,ار سال
 bug report tool ,ابزار گزارش اشکال
-report a bug in gnome -  based applications ,گزارش اشکالی در برنامه های گنومی
 bug reporter name ,نام گزارشکننده اشکال
 real name of user reporting the bug .   ,نام واقعی کاربر گزارشدهنده اشکال
 email address ,ادرسپست الکترونیکی
-email address for submitting bug reports to gnome bugzilla .   this address will be used for correspondence regarding the bug you are submitting .   if you already have a gnome bugzilla account    please use it as your email address .   ,نشانی پست الکترونیک برای ارسال گزارش های اشکال بهباگزیلایگنوم . این نشانی برای مکاتبه در مورد اشکالی که اکنون ارسال میکنید استفاده خواهد شد . اگر قبلا حسابی درباگزیلایگنوم دارد لطفا ان را به عنوان نشانی پست الکترونیکی خود وارد کنید .
 file to store unsent bug reports .   ,پرونده برای ذخیره گزارش های اشکال
 file where bug -  buddy will save your bug report in case it can  '   t be sent immediately to bugzilla .   ,پرونده ای که میخواهید گزارش اشکال شما برای ارسال در اینده در ان ذخیرهشود .
 package containing the program ,بسته حاوی برنامه
@@ -1986,7 +1977,6 @@ pid ,pid
 text file to include in the report ,پرونده متنی برای درج در گزارش
 delete the included file after reporting ,پرونده متنی برای درج در گزارش
 "bug buddy was unable to view the link  ""   ""   ",باگبادی نتوانست پیوند « » را نمایش دهد
-a bug report detailing your software crash has been sent to gnome .   this information will allow the developers to understand the cause of the crash and prepare a solution for it .   you may be contacted by a gnome developer if more details are required about the crash .   you can view your bug report and follow its progress with this url  :    ,یک گزارش اشکال با جزییات فروپاشی نرمافزار شما برای گنوم فرستاده شد . برنامهسازان با استفاده از این اطلاعات خواهند توانست دلیل فروپاشی را تشخیص داده و راهحلی برای انبیابند . شاید در صورت نیاز به جزییات بیشتر در مورد فروپاشی یکی از برنامهسازان گنوم با شما تماس بگیرد . میتوانید گزارش اشکال خود و پیشرفت پیگیری ان را از این نشانی دنبال کنید :
 bug buddy has encountered an error while submitting your report to the bugzilla server .   details of the error are included below .   ,باگبادی هنگام ارسال گزارش شما به کارگزار باگزیلا با خطایی مواجه شد . جزییات خطا در زیر امده است .
 bugzilla reported an error when trying to process your request    but was unable to parse the response .   ,باگزیلا هنگام تلاش برای پردازش درخواست شما خطایی گزارش کرد ، ولی پاسخ قابل تجزیه نیست .
 the email address you provided is not valid .   ,نشانی پستالکترونیکی ای که وارد کردید معتبر نیست .
@@ -1995,10 +1985,7 @@ the product specified doesn  '   t exist or has been renamed .   please upgrade 
 the component specified doesn  '   t exist or has been renamed .   please upgrade to the latest version .   ,مولفه مشخص شده وجود ندارد یا نامش تغییر کرده است . لطفا ان را به اخرین نسخه موجود ارتقا دهید .
 the summary is required in your bug report .   this should not happen with the latest bug buddy .   ,خلاصه از اجزای ضروری گزارش اشکال شماست . این اتفاق در باگبادی های جدید رخ نمیدهد .
 the description is required in your bug report .   this should not happen with the latest bug buddy .   ,شرح از اجزای ضروری گزارش اشکال شماست . این اتفاق در باگبادی های جدید رخ نمیدهد .
-the fault code returned by bugzilla is not recognized .   please report the following information to bugzilla .  gnome .  org manually  :     ,کد خطای برگردانده شده از باگزیلا شناسایی نمیشود . لطفا اطلاعات زیر را به طور دستی در گزارش کنید :
-server returned bad state .   this is most likely a server issue and should be reported to bugmaster .  org  ,کارگزار وضعیت قرمز برگرداند . به احتمال زیاد مشکل از طرف کارگزار است و باید به bugmaster گزارش شود .
 failed to parse the xml -  rpc response .   response follows  :     ,تجزیه پاسخxmlrpc شکستخورد . پاسخ از این قرار است :
-an unknown error occurred .   this is most likely a problem with bug -  buddy .   please report this problem manually at bugzilla .  gnome .  org ,خطای نامعلومی رخ داد . به احتمال زیاد مشکل از طرف باگبادی است . لطفا این مشکل را به صورت دستی در وارد کنید
 unable to create the bug report  :     ,ایجاد گزارش اشکال ممکن نیست :
 there was an error creating the bug report ,هنگام ایجاد گزارش اشکال خطایی رخ داد
 sending .   .   .   ,در حال فرستادن
@@ -2009,34 +1996,38 @@ information about the  application crash has been successfully collected .   ple
 save file ,ذخیره :
  -  bugreport .  txt ,
  save bug report ,ارسال گزارش
-the application  has crashed .   information about the crash has been successfully collected .   this application is not known to bug -  buddy    therefore the bug report cannot be sent to the gnome bugzilla .   please save the bug to a text file and report it to the appropriate bug tracker for this application .   ,اطلاعات راجع به فروپاشی در سیستم شما با موفقیت جمع اوری شد . باگبادی برنامه ای را که دچار فروپاشی شده نمیشناسد ، بنابراین نمیتواند گزارش اشکال را برای باگزیلایگنومبفرستد . لطفا اشکال را در یک پرونده متنی ذخیره کنید و ان را به محل مناسب برای گزارش اشکالات این برنامه ارسال کنید .
 there was an error displaying help  :     ,هنگام اجرای gdb خطایی پیش امد :
-bug buddy is a utility that helps report debugging information to the gnome bugzilla when a program crashes .   ,باگبادی برنامه ای است که هنگام فروپاشی برنامه ها به گزارش اطلاعات اشکالزداییانها بهباگزیلایگنوم کمک میکند .
 bug buddy could not load its user interface file .   please make sure bug buddy was installed correctly .   ,باگبادی قادر به بار کردن پروندهواسط کاربرش ( ) نبود . لطفا اطمینان حاصل کنید که باگبادی درست نصب شده است .
 collecting information from your system .   .   .   ,در حال جمع اوری اطلاعات سیستم شما
 either  -   -  appname or  -   -  package arguments are required .   ,eitherappnameorpackageargumentsarerequired .
 either  -   -  pid      -   -  include or  -   -  minidump arguments are required .   ,eitherpidorincludeargumentsarerequired .
-bug buddy was unable to retrieve information regarding the version of gnome you are running .   this is most likely due to a missing installation of gnome -  desktop .   ,باگبادی نتوانست به اطلاعات مرتبط با نسخهگنوم شما را دست پیدا کند . به احتمال زیاد دلیل این مسیله عدم نصبgnomedesktop است .
 the  application has crashed .   we are collecting information about the crash to send to the developers in order to fix the problem .   ,برنامه دچار فروپاشی شده است . شما در حال جمع اوری اطلاعات راجع به فروپاشی و ارسال انها به برنامهسازان هستید تا برای رفع مشکل اقدام کنند .
 collecting information from the crash .   .   .   ,در حال جمع اوری اطلاعات راجع به فروپاشی
 bug buddy encountered the following error when trying to retrieve debugging information  :     ,باگبادی هنگام تلاش برای دستیابی به اطلاعات اشکالزدایی با خطای زیر مواجه شد :
 bug buddy doesn  '   t know how to send a suggestion for the application  .   ,باگبادی نمی داند چطور پیشنهادی راجع به برنامه ارسال کند .
 thank you for helping us improving our software .   please fill your suggestions error information for  application .   a valid email address is required .   this will allow developers to contact you for more information if necessary .   ,از این که در بهبود نرمافزار به ما کمک میکنید متشکریم . لطفا پیشنهاد یا اطلاعات مربوط به خطای برنامه را وارد کنید . نشانی معتبر پست الکترونیک ضروری است . برنامهسازان در صورت نیاز به اطلاعات بیشتر از این طریق با شما تماس خواهند گرفت .
 suggestion   error description  :    ,پیشنهاد شرح خطا :
-application does not track its bugs in the gnome bugzilla .   ,برنامه نتوانست اشکالاتش را درباگزیلایکنوم ردیابیکند .
 gdb has already exited ,gdb قبلا خارج شده است
 error on read .   .   .   aborting ,خطا در خواندن در حال قطع
 gdb could not be found on your system .   debugging information will not be obtained .   ,gdb در سیستم شما پیدا نشد . جمع اوری اطلاعات اشکالزدایی مقدور نیست .
 could not find the gdb -  cmd file .   please try reinstalling bug buddy .   ,couldnotfindthegdbcmdfile . pleasetryreinstallingbugbuddy .
 there was an error running gdb  :     ,هنگام اجرای gdb خطایی پیش امد :
+report a bug in gnome -  based applications ,گزارش اشکالی در برنامه های گنومی
+email address for submitting bug reports to gnome bugzilla .   this address will be used for correspondence regarding the bug you are submitting .   if you already have a gnome bugzilla account    please use it as your email address .   ,نشانی پست الکترونیک برای ارسال گزارش های اشکال بهباگزیلایگنوم . این نشانی برای مکاتبه در مورد اشکالی که اکنون ارسال میکنید استفاده خواهد شد . اگر قبلا حسابی درباگزیلایگنوم دارد لطفا ان را به عنوان نشانی پست الکترونیکی خود وارد کنید .
 gnome bug buddy ,باگبادی
+a bug report detailing your software crash has been sent to gnome .   this information will allow the developers to understand the cause of the crash and prepare a solution for it .   you may be contacted by a gnome developer if more details are required about the crash .   you can view your bug report and follow its progress with this url  :    ,یک گزارش اشکال با جزییات فروپاشی نرمافزار شما برای گنوم فرستاده شد . برنامهسازان با استفاده از این اطلاعات خواهند توانست دلیل فروپاشی را تشخیص داده و راهحلی برای انبیابند . شاید در صورت نیاز به جزییات بیشتر در مورد فروپاشی یکی از برنامهسازان گنوم با شما تماس بگیرد . میتوانید گزارش اشکال خود و پیشرفت پیگیری ان را از این نشانی دنبال کنید :
 bug buddy encountered an error while submitting your report to the bugzilla server .   details of the error are included below .   ,باگبادی هنگام ارسال گزارش شما به کارگزار باگزیلا با خطایی مواجه شد . جزییات خطا در زیر امده است .
+the fault code returned by bugzilla is not recognized .   please report the following information to bugzilla .  gnome .  org manually  :     ,کد خطای برگردانده شده از باگزیلا شناسایی نمیشود . لطفا اطلاعات زیر را به طور دستی در گزارش کنید :
+server returned bad state .   this is most likely a server issue and should be reported to bugmaster .  org  ,کارگزار وضعیت قرمز برگرداند . به احتمال زیاد مشکل از طرف کارگزار است و باید به bugmaster گزارش شود .
 an unknown error occurred .   this is most likely a problem with bug buddy .   please report this problem manually at bugzilla .  gnome .  org ,خطای نامعلومی رخ داد . به احتمال زیاد مشکل از طرف باگبادی است . لطفا این مشکل را به صورت دستی در وارد کنید
 sending ,در حال فرستادن
 the application  has crashed .   information about the crash has been successfully collected .   this application is not known to bug buddy    therefore the bug report cannot be sent to the gnome bugzilla .   please save the bug to a text file and report it to the appropriate bug tracker for this application .   ,اطلاعات راجع به فروپاشی در سیستم شما با موفقیت جمع اوری شد . باگبادی برنامه ای را که دچار فروپاشی شده نمیشناسد ، بنابراین نمیتواند گزارش اشکال را برای باگزیلایگنومبفرستد . لطفا اشکال را در یک پرونده متنی ذخیره کنید و ان را به محل مناسب برای گزارش اشکالات این برنامه ارسال کنید .
+bug buddy is a utility that helps report debugging information to the gnome bugzilla when a program crashes .   ,باگبادی برنامه ای است که هنگام فروپاشی برنامه ها به گزارش اطلاعات اشکالزداییانها بهباگزیلایگنوم کمک میکند .
 collecting information from your system ,در حال جمع اوری اطلاعات سیستم شما
+bug buddy was unable to retrieve information regarding the version of gnome you are running .   this is most likely due to a missing installation of gnome -  desktop .   ,باگبادی نتوانست به اطلاعات مرتبط با نسخهگنوم شما را دست پیدا کند . به احتمال زیاد دلیل این مسیله عدم نصبgnomedesktop است .
 collecting information from the crash ,در حال جمع اوری اطلاعات راجع به فروپاشی
 thank you for helping us to improve our software .   please fill in your suggestions error information for  application .   a valid email address is required .   this will allow developers to contact you for more information if necessary .   ,از این که در بهبود نرمافزار به ما کمک میکنید متشکریم . لطفا پیشنهاد یا اطلاعات مربوط به خطای برنامه را وارد کنید . نشانی معتبر پست الکترونیک ضروری است . برنامهسازان در صورت نیاز به اطلاعات بیشتر از این طریق با شما تماس خواهند گرفت .
+application does not track its bugs in the gnome bugzilla .   ,برنامه نتوانست اشکالاتش را درباگزیلایکنوم ردیابیکند .
 error on read  ;    aborting .   ,خطا در خواندن در حال قطع
 either  -   -  pid or  -   -  include arguments are required .   ,eitherpidorincludeargumentsarerequired .
 your  email address  :    ,نشانی رایانامهی شما : :

@@ -417,16 +417,16 @@ class PersianTextPreprocessor:
             column = column.apply(self.pre_process_alphabet_numbers)
         if config['remove_half_space']:
             column = column.apply(self.remove_half_space)
-        # if config["remove_stopwords"]:
-        #     tokens = self.tokenizer.tokenize_words(text)
-        #     tokens = self.remove_stopwords(tokens)
-        #     text = ' '.join(tokens)
-        # if config["apply_stemming"]:
-        #     tokens = self.tokenizer.tokenize_words(text)
-        #     text = ' '.join(self.stemmer.convert_to_stem(token) for token in tokens)
-        # if config["apply_lemmatization"]:
-        #     tokens = self.tokenizer.tokenize_words(text)
-        #     text = ' '.join(self.stemmer.convert_to_stem(token) for token in tokens)
+        if config["remove_stopwords"]:
+            tokens = self.tokenizer.tokenize_words(text)
+            tokens = self.remove_stopwords(tokens)
+            text = ' '.join(tokens)
+        if config["apply_stemming"]:
+            tokens = self.tokenizer.tokenize_words(text)
+            text = ' '.join(self.stemmer.convert_to_stem(token) for token in tokens)
+        if config["apply_lemmatization"]:
+            tokens = self.tokenizer.tokenize_words(text)
+            text = ' '.join(self.stemmer.convert_to_stem(token) for token in tokens)
         if config["clean_extra_spaces"]:
             column = column.apply(self.clean_extra_spaces)
 
