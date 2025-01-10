@@ -410,23 +410,22 @@ class PersianTextPreprocessor:
             column = column.apply(self.remove_numbers_only_cells)
         if config['check_spell']:
             column = column.apply(self.spell_check)
+
         handle_emojis_strategy = config.get("handle_emojis")
         if handle_emojis_strategy:
-            column = self.handle_emojis(column, handle_emojis_strategy)
+            column = column.apply(lambda x: self.handle_emojis(x, handle_emojis_strategy))
         if config["normalize_text"]:
             column = column.apply(self.pre_process_alphabet_numbers)
         if config['remove_half_space']:
             column = column.apply(self.remove_half_space)
         if config["remove_stopwords"]:
-            tokens = self.tokenizer.tokenize_words(text)
-            tokens = self.remove_stopwords(tokens)
-            text = ' '.join(tokens)
+            column = column.apply(lambda x: ' '.join(self.remove_stopwords(self.tokenizer.tokenize_words(x))))
         if config["apply_stemming"]:
-            tokens = self.tokenizer.tokenize_words(text)
-            text = ' '.join(self.stemmer.convert_to_stem(token) for token in tokens)
+            column = column.apply(
+                lambda x: ' '.join(self.stemmer.convert_to_stem(token) for token in self.tokenizer.tokenize_words(x)))
         if config["apply_lemmatization"]:
-            tokens = self.tokenizer.tokenize_words(text)
-            text = ' '.join(self.stemmer.convert_to_stem(token) for token in tokens)
+            column = column.apply(
+                lambda x: ' '.join(self.stemmer.convert_to_stem(token) for token in self.tokenizer.tokenize_words(x)))
         if config["clean_extra_spaces"]:
             column = column.apply(self.clean_extra_spaces)
 
