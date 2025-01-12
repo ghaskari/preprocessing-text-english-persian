@@ -1,6 +1,8 @@
-import re
+import pandas as pd
 import emoji
-from datetime import datetime
+import unicodedata
+import re
+import jdatetime
 from parsivar import Normalizer, Tokenizer, FindStems
 from Dictionaries_Fa import (
     arabic_dict,
@@ -14,24 +16,22 @@ from Dictionaries_Fa import (
 
 class ConvertPersianDate:
     def convert_persian_to_standard_digits(self, text):
-
         persian_to_standard = str.maketrans("۰۱۲۳۴۵۶۷۸۹", "0123456789")
         return text.translate(persian_to_standard)
 
     def handle_persian_dates(self, text, convert_to_standard=False):
-
         text = self.convert_persian_to_standard_digits(text)
 
         def convert_date(match):
             if not convert_to_standard:
-                return ''
+                return ""
             persian_date = match.group(0)
             try:
-                # Convert Persian date string to Gregorian format
-                date_obj = datetime.strptime(persian_date, '%Y/%m/%d')
-                return date_obj.strftime('%Y-%m-%d')
+                persian_date_obj = jdatetime.datetime.strptime(persian_date, '%Y/%m/%d')
+                gregorian_date_obj = persian_date_obj.togregorian()
+                return gregorian_date_obj.strftime('%Y-%m-%d')
             except ValueError:
-                return ''
+                return ""
 
         pattern = r'\d{4}/\d{2}/\d{2}'
         text = re.sub(pattern, convert_date, text)
@@ -251,9 +251,7 @@ class PersianTextPreprocessor:
                 new_text += " " + char
             else:
                 new_text += char
-
             last_char_all_num = char.isalnum()
-
         return new_text
 
     def remove_url(self, text):
@@ -271,8 +269,10 @@ class PersianTextPreprocessor:
     def remove_encoded_email_strings(self, text):
         text = re.sub(r'[^\x00-\x7F]+<[\w\.\-]+@[\w\.\-]+\.[a-zA-Z]{2,}>', '', text)
         text = re.sub(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', '', text)
-
         return text
+
+    def normalize_unicode(self, text):
+        return unicodedata.normalize("NFKC", text) if isinstance(text, str) else text
 
     def remove_emails(self, text):
         text = re.sub(r'\b[\w\.-]+@[\w\.-]+\.\w+\b', '', text)
@@ -281,7 +281,6 @@ class PersianTextPreprocessor:
         return text
 
     def remove_elements(self, text):
-
         if isinstance(text, float):
             return ''
 
@@ -352,7 +351,6 @@ class PersianTextPreprocessor:
         for dictionary in dictionaries:
             for key, value in dictionary.items():
                 text = re.sub(re.escape(key), value, text)
-
         return text
 
     def remove_half_space(self, text):
@@ -360,12 +358,10 @@ class PersianTextPreprocessor:
         text = re.sub(pattern, r' \2', text)
         text = re.sub(r'\s+', ' ', text).strip()
         text = text.replace('\u200C', '')
-
         return text
 
     def remove_numbers_only_cells(self, text):
         stripped_text = re.sub(r'[\s,]+', '', text)
-
         if stripped_text.isdigit():
             return ''
         return text
@@ -379,6 +375,9 @@ class PersianTextPreprocessor:
         return emoji_strategies[strategy](text) if strategy in emoji_strategies else text
 
     def process_text(self, column):
+        if isinstance(column, list):
+            column = pd.Series(column)
+
         config = self.current_task_config
 
         column = column.apply(self.remove_cyrillic)
@@ -391,6 +390,8 @@ class PersianTextPreprocessor:
             column = column.apply(self.remove_encoded_email_strings)
             column = column.apply(self.remove_html_tags)
             column = column.apply(self.remove_emails)
+
+        column = column.apply(lambda x: ConvertPersianDate().handle_persian_dates(x, convert_to_standard=True))
 
         if config["remove_elements"]:
             column = column.apply(self.remove_elements)
@@ -423,12 +424,10 @@ class PersianTextPreprocessor:
         if config["apply_stemming"]:
             column = column.apply(
                 lambda x: ' '.join(self.stemmer.convert_to_stem(token) for token in self.tokenizer.tokenize_words(x)))
-        if config["apply_lemmatization"]:
-            column = column.apply(
-                lambda x: ' '.join(self.stemmer.convert_to_stem(token) for token in self.tokenizer.tokenize_words(x)))
+        # if config["apply_lemmatization"]:
+        #     column = column.apply(
+        #         lambda x: ' '.join(self.stemmer.convert_to_stem(token) for token in self.tokenizer.tokenize_words(x)))
         if config["clean_extra_spaces"]:
             column = column.apply(self.clean_extra_spaces)
-
-        column = column.apply(lambda x: ConvertPersianDate().handle_persian_dates(x, convert_to_standard=True))
 
         return column

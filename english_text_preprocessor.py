@@ -181,15 +181,12 @@ class EnglishTextPreprocessor:
     def remove_url_and_html(self, text):
         text = re.sub(r"http[s]?://\S+", "", text)  # Remove URLs
         text = re.sub(r"<.*?>", "", text)  # Remove HTML tags
-        return text
+        return self.clean_extra_spaces(text)
 
     def remove_elements(self, text):
         text = re.sub(r"@\w+", "", text)  # Remove mentions
         text = re.sub(r"#\w+", "", text)  # Remove hashtags
-        text = re.sub(r'%[a-zA-Z]+', '', text)  # Remove time-related patterns like %i:%m %p, %a, %b
-        text = re.sub(r'&[a-z]+;', '', text) # Remove HTML or encoded characters
-        text = re.sub(r"([!?,.:;'\-\"(){}\[\]])", r" \1 ", text)
-        return text
+        return self.clean_extra_spaces(text)
 
     def clean_punctuation(self, text):
         return re.sub(r"[^\w\s]", "", text)
@@ -197,6 +194,7 @@ class EnglishTextPreprocessor:
     def clean_extra_spaces(self, text):
         text = text.replace('\n', ' \n ')
         # text = text.replace('\n', ' ')
+        text =  re.sub(r'\s+', ' ', text).strip()
         return text
 
     def apply_dictionaries(self, text, dictionaries):
@@ -204,11 +202,11 @@ class EnglishTextPreprocessor:
             for key, value in dictionary.items():
                 text = text.replace(key, value)
 
-        text = re.sub(r'([^\w\s])', r'\1 ', text)  # Add a space after every character
-
+        # text = re.sub(r'([^\w\s])', r'\1 ', text)  # Add a space after every character
         return text
 
     def remove_stopwords(self, tokens):
+        tokens = [re.sub(r"[^\w\s]", "", word) for word in tokens]  # Clean punctuation
         return [word for word in tokens if word.lower() not in self.stopwords]
 
     def apply_lemmatization(self, tokens):
@@ -241,16 +239,16 @@ class EnglishTextPreprocessor:
 
         if config["normalize_unicode"]:
             column = column.apply(self.normalize_unicode)
-        #
+
         if config["remove_accents"]:
             column = column.apply(self.remove_accents)
 
         if config["handle_emojis"]:
             column = column.apply(lambda x: self.handle_emojis(x, strategy=config["handle_emojis"]))
-        #
+
         if config["correct_spelling"]:
             column = column.apply(self.correct_spelling)
-        #
+
         if config["apply_normalization"]:
             column = column.apply(self.normalize_unicode)
 

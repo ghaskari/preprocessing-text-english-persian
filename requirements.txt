@@ -6,3 +6,4 @@ pyspellchecker==0.8.2
 parsivar==0.2.2
 spacy==3.8.3
 openpyxl==3.1.5
+ jdatetime==5.0.0
