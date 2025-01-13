@@ -61,8 +61,7 @@ class PersianTextPreprocessor:
                 "lowercase": True,
                 "normalize_unicode": True,
                 "remove_accents": True,
-                "handle_emojis": "replace",
-                "correct_spelling": True,
+                "handle_emojis": "remove",
                 "remove_url_html": True,
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
@@ -77,7 +76,7 @@ class PersianTextPreprocessor:
                 "normalize_text": True,
                 "remove_stopwords": True,
                 "apply_stemming": False,
-                "apply_lemmatization": True,
+                # "apply_lemmatization": True,
                 "remove_half_space": True,
                 "clean_extra_spaces": True,
             },
@@ -86,7 +85,6 @@ class PersianTextPreprocessor:
                 "normalize_unicode": True,
                 "remove_accents": False,
                 "handle_emojis": None,
-                "correct_spelling": False,
                 "remove_url_html": True,
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
@@ -101,16 +99,15 @@ class PersianTextPreprocessor:
                 "normalize_text": False,
                 "remove_stopwords": False,
                 "apply_stemming": False,
-                "apply_lemmatization": False,
+                # "apply_lemmatization": False,
                 "remove_half_space": True,
                 "clean_extra_spaces": True,
             },
             "sentiment": {
                 "lowercase": True,
-                "normalize_unicode": True,
+                "normalize_unicode": False,
                 "remove_accents": True,
                 "handle_emojis": "sentiment",
-                "correct_spelling": True,
                 "remove_url_html": True,
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
@@ -125,7 +122,7 @@ class PersianTextPreprocessor:
                 "normalize_text": True,
                 "remove_stopwords": True,
                 "apply_stemming": False,
-                "apply_lemmatization": True,
+                # "apply_lemmatization": True,
                 "remove_half_space": True,
                 "clean_extra_spaces": True,
             },
@@ -133,8 +130,7 @@ class PersianTextPreprocessor:
                 "lowercase": True,
                 "normalize_unicode": True,
                 "remove_accents": True,
-                "handle_emojis": None,
-                "correct_spelling": False,
+                "handle_emojis": 'replace',
                 "remove_url_html": True,
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
@@ -149,7 +145,7 @@ class PersianTextPreprocessor:
                 "normalize_text": True,
                 "remove_stopwords": False,
                 "apply_stemming": False,
-                "apply_lemmatization": False,
+                # "apply_lemmatization": False,
                 "remove_half_space": True,
                 "clean_extra_spaces": True,
             },
@@ -157,8 +153,7 @@ class PersianTextPreprocessor:
                 "lowercase": True,
                 "normalize_unicode": True,
                 "remove_accents": True,
-                "handle_emojis": None,
-                "correct_spelling": False,
+                "handle_emojis": 'remove',
                 "remove_url_html": True,
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
@@ -173,7 +168,7 @@ class PersianTextPreprocessor:
                 "remove_stopwords": True,
                 "check_spell": True,
                 "apply_stemming": True,
-                "apply_lemmatization": True,
+                # "apply_lemmatization": True,
                 "remove_half_space": True,
                 "clean_extra_spaces": True,
             },
@@ -181,10 +176,9 @@ class PersianTextPreprocessor:
                 "lowercase": True,
                 "normalize_unicode": True,
                 "remove_accents": True,
-                "handle_emojis": None,
-                "correct_spelling": True,
                 "remove_url_html": True,
                 "remove_elements": True,
+                "handle_emojis": 'remove',
                 "apply_dictionary_replacements": True,
                 "apply_dictionary_replacements_signs": True,
                 "remove_english_words": True,
@@ -197,7 +191,7 @@ class PersianTextPreprocessor:
                 "check_spell": True,
                 "remove_stopwords": True,
                 "apply_stemming": False,
-                "apply_lemmatization": True,
+                # "apply_lemmatization": True,
                 "remove_half_space": True,
                 "clean_extra_spaces": True,
             },
@@ -205,8 +199,7 @@ class PersianTextPreprocessor:
                 "lowercase": True,
                 "normalize_unicode": True,
                 "remove_accents": True,
-                "handle_emojis": None,
-                "correct_spelling": False,
+                "handle_emojis": 'remove',
                 "remove_url_html": True,
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
@@ -221,16 +214,13 @@ class PersianTextPreprocessor:
                 "normalize_text": True,
                 "remove_stopwords": False,
                 "apply_stemming": False,
-                "apply_lemmatization": True,
+                # "apply_lemmatization": True,
                 "remove_half_space": True,
                 "clean_extra_spaces": True,
             },
         }
 
         self.current_task_config = self.task_config.get(task, self.task_config["default"])
-
-    def spell_check(self, text):
-        return self.normalizer.normalize(text)
 
     def remove_stopwords(self, tokens):
         return [token for token in tokens if token not in self.stopwords]
@@ -367,18 +357,33 @@ class PersianTextPreprocessor:
         return text
 
     def handle_emojis(self, text, strategy):
+        if not isinstance(text, str):
+            return text
+
+        def remove_emojis(text):
+            return ''.join(char for char in text if char not in emoji.EMOJI_DATA)
+
+        def replace_emojis(text):
+            return ''.join(char if char not in emoji.EMOJI_DATA else "[EMOJI]" for char in text)
+
+        def sentiment_emojis(text):
+            return ''.join(char if char not in emoji.EMOJI_DATA else " positive " for char in text)
+
         emoji_strategies = {
-            "remove": lambda x: ''.join(char for char in x if char not in emoji.EMOJI_DATA),
-            "replace": lambda x: ''.join(char if char not in emoji.EMOJI_DATA else "[EMOJI]" for char in x),
-            "sentiment": lambda x: ''.join(char if char not in emoji.EMOJI_DATA else "positive" for char in x)
+            "remove": remove_emojis,
+            "replace": replace_emojis,
+            "sentiment": sentiment_emojis,
         }
-        return emoji_strategies[strategy](text) if strategy in emoji_strategies else text
+        result = emoji_strategies.get(strategy, lambda x: x)(text)
+        return result
 
     def process_text(self, column):
+
         if isinstance(column, list):
             column = pd.Series(column)
 
         config = self.current_task_config
+        # print("Config:", self.current_task_config)
 
         column = column.apply(self.remove_cyrillic)
 
@@ -409,21 +414,20 @@ class PersianTextPreprocessor:
             column = column.apply(self.clean_farsi_text_punctuation)
         if config["remove_numbers_only"]:
             column = column.apply(self.remove_numbers_only_cells)
-        if config['check_spell']:
-            column = column.apply(self.spell_check)
 
         handle_emojis_strategy = config.get("handle_emojis")
         if handle_emojis_strategy:
             column = column.apply(lambda x: self.handle_emojis(x, handle_emojis_strategy))
+
         if config["normalize_text"]:
             column = column.apply(self.pre_process_alphabet_numbers)
         if config['remove_half_space']:
             column = column.apply(self.remove_half_space)
         if config["remove_stopwords"]:
             column = column.apply(lambda x: ' '.join(self.remove_stopwords(self.tokenizer.tokenize_words(x))))
-        if config["apply_stemming"]:
-            column = column.apply(
-                lambda x: ' '.join(self.stemmer.convert_to_stem(token) for token in self.tokenizer.tokenize_words(x)))
+        # if config["apply_stemming"]:
+        #     column = column.apply(
+        #         lambda x: ' '.join(self.stemmer.convert_to_stem(token) for token in self.tokenizer.tokenize_words(x)))
         # if config["apply_lemmatization"]:
         #     column = column.apply(
         #         lambda x: ' '.join(self.stemmer.convert_to_stem(token) for token in self.tokenizer.tokenize_words(x)))

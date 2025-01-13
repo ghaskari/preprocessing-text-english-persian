@@ -97,7 +97,7 @@ sign_dict_en = {
     '‘': ' ',  # Maps left single quotation mark to standard double quote
     '’': ' ',  # Maps right single quotation mark to standard double quote
     '""': ' ',  # Maps double double-quote to a single double quote
-    '-': ' ',  # Maps hyphen to hyphen surrounded by spaces
+    # '-': ' ',  # Maps hyphen to hyphen surrounded by spaces
     '—': ' ',  # Maps em dash to space
     '_': ' ',  # Maps underscore to space
     '%': ' ',  # Maps percent sign to space
@@ -114,7 +114,7 @@ sign_dict_en = {
     r'\\': '',  # Removes backslash
     '`': '',  # Removes backtick
     '|': '',  # Removes pipe symbol
-    '/': '',  # Removes forward slash
+    # '/': '',  # Removes forward slash
     '•': ' ',  # Maps bullet point to space
     '。': ' ',  # Maps Chinese period to space
     '¡': ' ',  # Maps inverted exclamation mark to space
@@ -185,7 +185,7 @@ sign_dict_fa_phase_one = {
     '.': ' . ',
     '…': ' ',  # Maps ellipsis symbol to a single period surrounded by spaces
     '،': ' ، ',
-    '-': ' ',  # Maps hyphen to space
+    # '-': ' ',  # Maps hyphen to space
     '—': ' ',  # Maps em dash to space
     '_': ' ',  # Maps underscore to space
     '@': '',  # Removes at symbol
@@ -262,7 +262,7 @@ sign_dict_fa_phase_one = {
     '[': ' ',  # Replace left square bracket with a space
     '√': ' ',  # Replace square root symbol with a space
     '﻿': '',  # Remove zero-width no-break space (BOM)
-    '/': ' ',  # Replace forward slash with a space
+    # '/': ' ',  # Replace forward slash with a space
     'ٰ': '',  # Remove Arabic superscript alif
     '＝': ' ',  # Replace full-width equals sign with a space
     'ھ': 'ه',  # Replace Urdu/Persian 'he' with Arabic 'ه'
