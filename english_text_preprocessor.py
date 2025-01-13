@@ -171,10 +171,56 @@ class EnglishTextPreprocessor:
             return text
 
         emoji_sentiment_map = {
+            # Positive Emojis
             "😊": "positive",
-            "😢": "negative",
             "😂": "positive",
+            "😄": "positive",
+            "😁": "positive",
+            "😎": "positive",
+            "😍": "positive",
+            "😘": "positive",
+            "😇": "positive",
+            "🥳": "positive",
+            "🤩": "positive",
+            "😌": "positive",
+            "👏": "positive",
+            "👍": "positive",
+            "💪": "positive",
+            "🌟": "positive",
+            "❤️": "positive",
+            "💕": "positive",
+            "🎉": "positive",
+
+            # Negative Emojis
+            "😢": "negative",
+            "😭": "negative",
+            "😔": "negative",
+            "😞": "negative",
+            "😡": "negative",
+            "😠": "negative",
+            "🤬": "negative",
+            "😩": "negative",
+            "😱": "negative",
+            "🙁": "negative",
+            "😣": "negative",
+            "💔": "negative",
+            "👎": "negative",
+            "😤": "negative",
+
+            # Neutral Emojis
             "😐": "neutral",
+            "😑": "neutral",
+            "😶": "neutral",
+            "🙄": "neutral",
+            "🤔": "neutral",
+            "🤨": "neutral",
+            "😕": "neutral",
+            "🤝": "neutral",
+            "✋": "neutral",
+            "👌": "neutral",
+            "💬": "neutral",
+            "🤷": "neutral",
+            "🙃": "neutral",
         }
         def remove_emojis(text):
             return ''.join(char for char in text if char not in emoji.EMOJI_DATA)
