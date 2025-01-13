@@ -46,7 +46,8 @@ english_dict = {
     'x': 'x',  # Maps lowercase 'x' to itself
     'y': 'y',  # Maps lowercase 'y' to itself
     'ʏ': 'y',  # Maps small capital Y to lowercase 'y'
-    'z': 'z'   # Maps lowercase 'z' to itself
+    'z': 'z',  # Maps lowercase 'z' to itself
+    'é': 'e',
 }
 
 # Expands English contractions into their full form.
@@ -508,6 +509,7 @@ sign_dict_en = {
     '¢': ' ',  # Maps cent sign to space
     '€': ' ',  # Maps euro sign to space
     '\\': ' ',  # Maps single backslash to space
+    'é': 'e',
 }
 
 # Maps a variety of special characters, symbols, accented characters, and some foreign characters to either their base form or removes them entirely.

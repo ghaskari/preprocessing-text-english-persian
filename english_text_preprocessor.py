@@ -25,111 +25,110 @@ class EnglishTextPreprocessor:
         self.nlp = spacy.load("en_core_web_sm")
         self.stopwords = self.nlp.Defaults.stop_words
 
-        # Define task-specific configurations
         self.task_config = {
             "default": {
                 "lowercase": True,
-                "normalize_unicode": True,
+                "apply_normalization": True,
                 "remove_accents": True,
                 "handle_emojis": "replace",  # Options: "remove", "replace", "sentiment", None
                 "correct_spelling": True,
                 "remove_url_html": True,
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
-                "apply_normalization": False,
                 "clean_punctuation": True,
                 "remove_stopwords": True,
                 "apply_lemmatization": True,
+                "apply_stemming": False,
                 "clean_extra_spaces": True,
             },
             "translation": {
                 "lowercase": True,
-                "normalize_unicode": True,
+                "apply_normalization": True,
                 "remove_accents": False,
                 "handle_emojis": None,
                 "correct_spelling": False,
                 "remove_url_html": True,
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
-                "apply_normalization": False,
                 "clean_punctuation": False,
                 "remove_stopwords": False,
                 "apply_lemmatization": False,
+                "apply_stemming": False,
                 "clean_extra_spaces": True,
             },
             "sentiment": {
                 "lowercase": True,
-                "normalize_unicode": True,
+                "apply_normalization": True,
                 "remove_accents": True,
                 "handle_emojis": "sentiment",
                 "correct_spelling": True,
                 "remove_url_html": True,
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
-                "apply_normalization": False,
                 "clean_punctuation": True,
                 "remove_stopwords": False,
-                "apply_lemmatization": False,
+                "apply_lemmatization": True,
+                "apply_stemming": False,
                 "clean_extra_spaces": True,
             },
             "ner": {
                 "lowercase": True,
-                "normalize_unicode": True,
+                "apply_normalization": True,
                 "remove_accents": True,
-                "handle_emojis": 'replace',
+                "handle_emojis": 'remove',
                 "correct_spelling": False,
                 "remove_url_html": True,
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
-                "apply_normalization": True,
-                "clean_punctuation": True,
+                "clean_punctuation": False,
                 "remove_stopwords": False,
                 "apply_lemmatization": False,
+                "apply_stemming": False,
                 "clean_extra_spaces": True,
             },
             "topic_modeling": {
                 "lowercase": True,
-                "normalize_unicode": True,
+                "apply_normalization": True,
                 "remove_accents": True,
                 "handle_emojis": None,
                 "correct_spelling": False,
                 "remove_url_html": True,
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
-                "apply_normalization": True,
                 "clean_punctuation": True,
                 "remove_stopwords": False,
                 "apply_lemmatization": False,
+                "apply_stemming": True,
                 "clean_extra_spaces": True,
             },
             "spam_detection": {
                 "lowercase": True,
-                "normalize_unicode": True,
+                "apply_normalization": True,
                 "remove_accents": True,
                 "handle_emojis": None,
                 "correct_spelling": True,
                 "remove_url_html": True,
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
-                "apply_normalization": True,
                 "clean_punctuation": True,
                 "remove_stopwords": False,
                 "apply_lemmatization": False,
+                "apply_stemming": False,
                 "clean_extra_spaces": True,
             },
             "summarization": {
                 "lowercase": True,
-                "normalize_unicode": True,
+                "apply_normalization": True,
                 "remove_accents": True,
                 "handle_emojis": None,
                 "correct_spelling": False,
                 "remove_url_html": True,
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
-                "apply_normalization": True,
                 "clean_punctuation": True,
                 "remove_stopwords": False,
                 "apply_lemmatization": False,
+                "apply_stemming": False,
                 "clean_extra_spaces": True,
             },
         }
@@ -143,33 +142,29 @@ class EnglishTextPreprocessor:
         text = re.sub(r'&[a-z]+;', '', text) # Remove HTML or encoded characters
         text = re.sub(r'\s+', ' ', text).strip() # Normalize spaces
 
-       # text = re.sub(r'[^\w\s\u0600-\u06FF]', '', text)  # Keeps Persian and English characters only
-
         return text
 
     def normalize_unicode(self, text):
-        return unicodedata.normalize("NFKC", text) if isinstance(text, str) else text
+        text = unicodedata.normalize("NFKC", text) if isinstance(text, str) else text
+        text = "".join(c for c in unicodedata.normalize("NFKD", text) if not unicodedata.combining(c))
+        text = text.replace("é", "e")
+        return text
 
     def remove_accents(self, text):
         return "".join(c for c in unicodedata.normalize("NFKD", text) if not unicodedata.combining(c))
 
     def correct_spelling(self, text):
         corrected_text = []
-        # Tokenize while preserving punctuation
         tokens = re.findall(r"[\w']+|[.,!?;]", text)
         misspelled_words = self.spellchecker.unknown(tokens)
 
         for token in tokens:
-            # Correct only misspelled words, skip punctuation
             if token in misspelled_words:
                 corrected_text.append(self.spellchecker.correction(token))
             else:
                 corrected_text.append(token)
 
-        return "".join(
-            " " + t if t not in ".,!?;" and i > 0 else t
-            for i, t in enumerate(corrected_text)
-        )
+        return " ".join(corrected_text).replace(" ", " ")
 
     def handle_emojis(self, text, strategy):
         if not isinstance(text, str):
@@ -232,6 +227,10 @@ class EnglishTextPreprocessor:
         tokens = [re.sub(r"[^\w\s]", "", word) for word in tokens]
         return [word for word in tokens if word.lower() not in self.stopwords]
 
+    def apply_stemming(self, tokens):
+        doc = self.nlp(" ".join(tokens))
+        return [token.lemma_ for token in doc]
+
     def apply_lemmatization(self, tokens):
         doc = self.nlp(" ".join(tokens))
         # for token in doc:
@@ -250,6 +249,9 @@ class EnglishTextPreprocessor:
 
         if config["remove_url_html"]:
             column = column.apply(self.remove_url_and_html)
+
+        if config["apply_normalization"]:
+            column = column.apply(self.normalize_unicode)
 
         if config["remove_elements"]:
             column = column.apply(self.remove_elements)
@@ -270,20 +272,17 @@ class EnglishTextPreprocessor:
         if config["clean_punctuation"]:
             column = column.apply(self.clean_punctuation)
 
-        if config["normalize_unicode"]:
-            column = column.apply(self.normalize_unicode)
-
         if config["remove_accents"]:
             column = column.apply(self.remove_accents)
 
         if config["correct_spelling"]:
             column = column.apply(self.correct_spelling)
 
-        if config["apply_normalization"]:
-            column = column.apply(self.normalize_unicode)
-
         if config["remove_stopwords"]:
             column = column.apply(lambda x: " ".join(self.remove_stopwords(x.split())))
+
+        if config.get("apply_stemming", False):
+            column = column.apply(lambda x: " ".join(self.apply_stemming(x.split())))
 
         if config["apply_lemmatization"]:
             column = column.apply(lambda x: " ".join(self.apply_lemmatization(x.split())))
