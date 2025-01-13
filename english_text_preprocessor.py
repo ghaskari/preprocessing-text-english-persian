@@ -66,17 +66,17 @@ class EnglishTextPreprocessor:
                 "remove_url_html": True,
                 "remove_elements": True,
                 "apply_dictionary_replacements": True,
-                "apply_normalization": True,
+                "apply_normalization": False,
                 "clean_punctuation": True,
-                "remove_stopwords": True,
-                "apply_lemmatization": True,
+                "remove_stopwords": False,
+                "apply_lemmatization": False,
                 "clean_extra_spaces": True,
             },
             "ner": {
                 "lowercase": True,
                 "normalize_unicode": True,
                 "remove_accents": True,
-                "handle_emojis": None,
+                "handle_emojis": 'replace',
                 "correct_spelling": False,
                 "remove_url_html": True,
                 "remove_elements": True,
@@ -98,8 +98,8 @@ class EnglishTextPreprocessor:
                 "apply_dictionary_replacements": True,
                 "apply_normalization": True,
                 "clean_punctuation": True,
-                "remove_stopwords": True,
-                "apply_lemmatization": True,
+                "remove_stopwords": False,
+                "apply_lemmatization": False,
                 "clean_extra_spaces": True,
             },
             "spam_detection": {
@@ -113,8 +113,8 @@ class EnglishTextPreprocessor:
                 "apply_dictionary_replacements": True,
                 "apply_normalization": True,
                 "clean_punctuation": True,
-                "remove_stopwords": True,
-                "apply_lemmatization": True,
+                "remove_stopwords": False,
+                "apply_lemmatization": False,
                 "clean_extra_spaces": True,
             },
             "summarization": {
@@ -129,7 +129,7 @@ class EnglishTextPreprocessor:
                 "apply_normalization": True,
                 "clean_punctuation": True,
                 "remove_stopwords": False,
-                "apply_lemmatization": True,
+                "apply_lemmatization": False,
                 "clean_extra_spaces": True,
             },
         }
@@ -155,28 +155,53 @@ class EnglishTextPreprocessor:
 
     def correct_spelling(self, text):
         corrected_text = []
-        misspelled_words = self.spellchecker.unknown(text.split())
-        for word in text.split():
-            corrected_text.append(self.spellchecker.correction(word) if word in misspelled_words else word)
-        return " ".join(corrected_text)
+        # Tokenize while preserving punctuation
+        tokens = re.findall(r"[\w']+|[.,!?;]", text)
+        misspelled_words = self.spellchecker.unknown(tokens)
 
-    def handle_emojis(self, text, strategy="remove"):
-        if strategy == "remove":
-            return emoji.replace_emoji(text, "")
-        elif strategy == "replace":
-            return emoji.demojize(text)
-        elif strategy == "sentiment":
-            emoji_sentiment_map = {
-                "😊": "positive",
-                "😢": "negative",
-                "😂": "positive",
-                "😐": "neutral",
-            }
-            for emoji_char, sentiment in emoji_sentiment_map.items():
-                text = text.replace(emoji_char, sentiment)
+        for token in tokens:
+            # Correct only misspelled words, skip punctuation
+            if token in misspelled_words:
+                corrected_text.append(self.spellchecker.correction(token))
+            else:
+                corrected_text.append(token)
+
+        return "".join(
+            " " + t if t not in ".,!?;" and i > 0 else t
+            for i, t in enumerate(corrected_text)
+        )
+
+    def handle_emojis(self, text, strategy):
+        if not isinstance(text, str):
             return text
-        else:
-            return text
+
+        emoji_sentiment_map = {
+            "😊": "positive",
+            "😢": "negative",
+            "😂": "positive",
+            "😐": "neutral",
+        }
+        def remove_emojis(text):
+            return ''.join(char for char in text if char not in emoji.EMOJI_DATA)
+
+        def replace_emojis(text):
+            return ''.join(char if char not in emoji.EMOJI_DATA else " EMOJI " for char in text)
+
+        def sentiment_emojis(text):
+            result = []
+            for char in text:
+                if char in emoji_sentiment_map:
+                    result.append(f" {emoji_sentiment_map[char]} ")
+                elif char not in emoji.EMOJI_DATA:
+                    result.append(char)
+            return ''.join(result)
+        emoji_strategies = {
+            "remove": remove_emojis,
+            "replace": replace_emojis,
+            "sentiment": sentiment_emojis,
+        }
+        result = emoji_strategies.get(strategy, lambda x: x)(text)
+        return result
 
     def remove_url_and_html(self, text):
         text = re.sub(r"http[s]?://\S+", "", text)  # Remove URLs
@@ -201,15 +226,19 @@ class EnglishTextPreprocessor:
         for dictionary in dictionaries:
             for key, value in dictionary.items():
                 text = text.replace(key, value)
-
-        # text = re.sub(r'([^\w\s])', r'\1 ', text)  # Add a space after every character
         return text
 
     def remove_stopwords(self, tokens):
-        tokens = [re.sub(r"[^\w\s]", "", word) for word in tokens]  # Clean punctuation
+        tokens = [re.sub(r"[^\w\s]", "", word) for word in tokens]
         return [word for word in tokens if word.lower() not in self.stopwords]
 
     def apply_lemmatization(self, tokens):
+        doc = self.nlp(" ".join(tokens))
+        # for token in doc:
+        #     print(f"Token: {token.text}, POS: {token.pos_}, Lemma: {token.lemma_}")
+        return [token.lemma_ for token in doc]
+
+    def stem_tokens(self, tokens):
         doc = self.nlp(" ".join(tokens))
         return [token.lemma_ for token in doc]
 
@@ -224,6 +253,10 @@ class EnglishTextPreprocessor:
 
         if config["remove_elements"]:
             column = column.apply(self.remove_elements)
+
+        handle_emojis_strategy = config.get("handle_emojis")
+        if handle_emojis_strategy:
+            column = column.apply(lambda x: self.handle_emojis(x, handle_emojis_strategy))
 
         if config["apply_dictionary_replacements"]:
             dictionaries = [
@@ -243,9 +276,6 @@ class EnglishTextPreprocessor:
         if config["remove_accents"]:
             column = column.apply(self.remove_accents)
 
-        if config["handle_emojis"]:
-            column = column.apply(lambda x: self.handle_emojis(x, strategy=config["handle_emojis"]))
-
         if config["correct_spelling"]:
             column = column.apply(self.correct_spelling)
 
@@ -260,5 +290,8 @@ class EnglishTextPreprocessor:
 
         if config["clean_extra_spaces"]:
             column = column.apply(self.clean_extra_spaces)
+
+        if config["lowercase"] and self.current_task_config != self.task_config["ner"]:
+            column = column.apply(self.to_lower_case)
 
         return column

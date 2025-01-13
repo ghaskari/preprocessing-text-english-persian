@@ -119,8 +119,6 @@ contractions_dict = {
     "Hedve": "He would have",
     "he'd've": "he would have",
     "He'd've": "He would have",
-    "hell": "he will",
-    "Hell": "He will",
     "he'll": "he will",
     "He'll": "He will",
     "hellve": "he will have",
@@ -139,10 +137,10 @@ contractions_dict = {
     "Ain't": "Are not",
     "aren't": "are not",
     "Aren't": "Are not",
-    "can't": "cannot",
-    "Can't": "Cannot",
-    "can't've": "cannot have",
-    "Can't've": "Cannot have",
+    "can't": "can not",
+    "Can't": "Can not",
+    "can't've": "can not have",
+    "Can't've": "Can not have",
     "'cause": "because",
     "'Cause": "Because",
     "could've": "could have",
@@ -230,7 +228,8 @@ contractions_dict = {
     "needn't've": "need not have",
     "Needn't've": "Need not have",
     "o'clock": "of the clock",
-    "O'clock": "Of the clock",
+    "O'clock": "of the clock",
+    "O'clock": "of the clock",
     "oughtn't": "ought not",
     "Oughtn't": "Ought not",
     "oughtn't've": "ought not have",
@@ -341,7 +340,6 @@ contractions_dict = {
     "Won't": "Will not",
     "wont": "will not",
     "Wont": "Will not",
-
     "whos": "who is",
     "Whos": "Who is",
     "who's": "who is",
@@ -516,6 +514,9 @@ sign_dict_en = {
 special_char_dict = {
     ':': ' : ',
     ';': ' ; ',
+    '!': ' ! ',
+    '?': ' ? ',
+    '.': ' . ',
     '•': ' ',  # Maps bullet point to space
     '。': ' ',  # Maps Chinese period to space
     '¡': ' ',  # Maps inverted exclamation mark to space
@@ -613,7 +614,6 @@ special_char_dict = {
     '子': '',  # Removes Chinese character
     '的': '',  # Removes Chinese character
     '人': '',  # Removes Chinese character
-    '!': '',  # Removes exclamation mark
     '大': '',  # Removes Chinese character
     '别': '',  # Removes Chinese character
     '山': '',  # Removes Chinese character
